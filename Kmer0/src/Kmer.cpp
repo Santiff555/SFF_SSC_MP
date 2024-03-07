@@ -13,4 +13,12 @@
  * Created on 24 October 2023, 14:00
  */
 
-#include "Kmer.h"
+#include "../include/Kmer.h"
+
+Kmer::Kmer(int k)
+{
+    for(int i = 0; i < k; i++)
+    {
+        _text[i] = MISSING_NUCLEOTIDE;
+    }
+}

@@ -16,7 +16,7 @@
 #include <iostream>
 #include <string>
 
-#include "Kmer.h"
+#include "../include/Kmer.h"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ CCC_G<-->ggg_c
 CC_G_<-->gg_c_
 C_G_G<-->g_c_c
  */
-int main(int argc, char* argv[]) {
+int main() {
     // This string contains the list of nucleotides that are considered as
     // valid within a genetic sequence. The rest of characters are considered as
     // unknown nucleotides 
@@ -70,6 +70,10 @@ int main(int argc, char* argv[]) {
     // Obtain the complementary kmers and turn them into lowercase
 
     // Show the list of kmers and complementary kmers as in the example
+
+    Kmer kmerTest = Kmer(6);
+
+    cout<<kmerTest.toString()<<endl;
     
     return 0;
 }
