@@ -22,3 +22,11 @@ Kmer::Kmer(int k)
         _text[i] = MISSING_NUCLEOTIDE;
     }
 }
+
+Kmer::Kmer(const std::string& text)
+{
+    for(int i = 0; i < text.size(); i++)
+    {
+        _text[i] = text[i];
+    }
+}
