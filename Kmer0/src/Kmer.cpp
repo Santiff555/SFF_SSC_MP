@@ -81,7 +81,22 @@ void Kmer::normalize(const std::string& validNucleotides)
 Kmer Kmer::complementary(const std::string& nucleotides, 
          const std::string& complementaryNucleotides) const
 {
+    Kmer solution = Kmer(this->size());  
+    if(nucleotides.size() != complementaryNucleotides.size())
+    {
+        throw std::invalid_argument("Both strings have to be the same size ");
+    }
     
+    for(int i = 0; i < this->size(); i++)
+    {
+        int nucleotidIndex = nucleotides.find(this->at(i));
+        if(nucleotidIndex != std::string::npos)
+        {
+            solution.at(i) = complementaryNucleotides.at(nucleotidIndex);
+        }
+    }
+    
+    return solution;
 }
 
 bool IsValidNucleotide(char nucleotide, const std::string& validNucleotides)

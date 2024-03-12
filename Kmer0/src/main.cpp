@@ -62,16 +62,57 @@ int main() {
     Kmer complementaryKmers[DIM_ARRAY_KMERS];
     
     // Read K (integer) and a string with the input nucleotides list
-
+    int k = 0;
+    string nucleotidesList = std::string.empty();
+    const char EOF = '0';
+    
+    string fileName = "";
+    std::cin >> fileName;
+    ifstream file(fileName.c_str());    
+    
+    if (!file.is_open())
+    {
+        cout << "Error trying to open the file: "<<fileName<<std::endl;
+        exit(EXIT_FAILURE);
+    }
+    
+    file>>k;
+    
+    char aCharToAdd;
+    while (file>>aCharToAdd && aCharToAdd!=EOF)
+    {
+        nucleotidesList += aCharToAdd;
+    }
+    
     // Obtain the kmers: find the kmers in the input string and put them in an array of Kmers
     
+    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    {
+        string nucleotidesForKmer = std::string.empty();
+        for(int j = i ; j < i+k; j++)
+        {
+            nucleotidesForKmer += nucleotidesList[j];
+        }
+     
+        kmers[i] = Kmer(nucleotidesForKmer);
+    }
     // Normalize each Kmer in the array
-
+    
+    //FALTA HACER ESTA PARTE (asignado a: sff)
+    
     // Obtain the complementary kmers and turn them into lowercase
+    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    {
+        complementaryKmers[i] = kmers[i].complementary(VALID_NUCLEOTIDES, COMPLEMENTARY_NUCLEOTIDES); 
+    }
 
     // Show the list of kmers and complementary kmers as in the example
     
-    Kmer kmer0 = Kmer(6);
-    return 0;
+    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    {
+        std::cout<<kmers[i].toString()<<"<->"<<complementaryKmers[i].toString()<<std::endl;
+    }
+    
+
 }
 
