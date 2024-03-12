@@ -14,19 +14,99 @@
  */
 
 #include "../include/Kmer.h"
+#include <string.h>
 
 Kmer::Kmer(int k)
 {
+    if(k <= 0)
+    {
+        throw std::invalid_argument("Input must be a integrer greater that 0 ");
+    }
+    
     for(int i = 0; i < k; i++)
     {
-        _text[i] = MISSING_NUCLEOTIDE;
+        _text += MISSING_NUCLEOTIDE;
     }
+
 }
 
 Kmer::Kmer(const std::string& text)
 {
-    for(int i = 0; i < text.size(); i++)
+    if(text.empty())
     {
-        _text[i] = text[i];
+        throw std::invalid_argument("Input must be a string with at least one character. ");
     }
+    _text = text;
+}
+
+Kmer::getK() const
+{
+    return this->size();
+}
+
+Kmer::size() const
+{
+    return _text.size();
+}
+
+std::string Kmer::toString() const
+{
+    return _text;
+}
+
+const char& Kmer::at(int index) const 
+{
+    if(index < 0 || index >= this->size())
+    {
+         throw std::out_of_range ("Index out of range");
+    }
+    return _text.at(index);
+}
+
+char& Kmer::at(int index) 
+{
+    if(index < 0 || index >= this->size())
+    {
+         throw std::out_of_range ("Index out of range");
+    }
+    
+    return _text.at(index);
+}
+
+void Kmer::normalize(const std::string& validNucleotides)
+{
+    
+}
+
+Kmer Kmer::complementary(const std::string& nucleotides, 
+         const std::string& complementaryNucleotides) const
+{
+    
+}
+
+bool IsValidNucleotide(char nucleotide, const std::string& validNucleotides)
+{
+    bool solution = true;
+    if(validNucleotides.find(nucleotide) != std::string::npos)
+    {
+        solution = false;
+    }
+    
+    return solution;
+}
+
+void ToLower(Kmer& kmer)
+{ 
+    for(int i = 0; i<kmer.size(); i++)
+    {
+        kmer.at(i) = tolower(kmer.at(i));
+    }
+}
+
+void ToUpper(Kmer& kmer)
+{
+    for(int i = 0; i<kmer.size(); i++)
+    {
+        kmer.at(i) = toupper(kmer.at(i));
+    }   
 }

@@ -70,11 +70,8 @@ int main() {
     // Obtain the complementary kmers and turn them into lowercase
 
     // Show the list of kmers and complementary kmers as in the example
-
-    Kmer kmerTest = Kmer(6);
-
-    cout<<kmerTest.toString()<<endl;
     
+    Kmer kmer0 = Kmer(6);
     return 0;
 }
 
