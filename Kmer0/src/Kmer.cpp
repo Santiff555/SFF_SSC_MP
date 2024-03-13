@@ -5,16 +5,15 @@
 
 /** 
  * @file Kmer.cpp
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 24 October 2023, 14:00
+ * @author Santiago F F <@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+ * Created on 8 March 2024, 13:58
  */
 
 #include "../include/Kmer.h"
 #include <string.h>
+#include <cctype>
 
 Kmer::Kmer(int k)
 {
@@ -23,10 +22,7 @@ Kmer::Kmer(int k)
         throw std::invalid_argument("Input must be a integrer greater that 0 ");
     }
     
-    for(int i = 0; i < k; i++)
-    {
-        _text += MISSING_NUCLEOTIDE;
-    }
+    this->_text = std::string(k, MISSING_NUCLEOTIDE);
 
 }
 
@@ -75,7 +71,12 @@ char& Kmer::at(int index)
 
 void Kmer::normalize(const std::string& validNucleotides)
 {
-    
+    ToUpper(*this);
+    for (int i = 0 ; i < this->size() ; i++){
+        if (!IsValidNucleotide(this->at(i), validNucleotides)){
+            this->at(i) = MISSING_NUCLEOTIDE;
+        }
+    }
 }
 
 Kmer Kmer::complementary(const std::string& nucleotides, 
@@ -96,13 +97,15 @@ Kmer Kmer::complementary(const std::string& nucleotides,
         }
     }
     
+    ToLower(solution); //Sale en el video
+    
     return solution;
 }
 
 bool IsValidNucleotide(char nucleotide, const std::string& validNucleotides)
 {
     bool solution = true;
-    if(validNucleotides.find(nucleotide) != std::string::npos)
+    if(validNucleotides.find(nucleotide) == std::string::npos)
     {
         solution = false;
     }

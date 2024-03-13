@@ -14,6 +14,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "../include/Kmer.h"
@@ -31,7 +32,11 @@ using namespace std;
  * See the next example:
  * 
  * Running example:
+ * > kmer0 < data/easyDNA2_missing.k0in
+ * > kmer0 < data/easyDNA3.k0in
+ * > kmer0 < data/easyDNA5.k0in
  * > kmer0 < data/easyDNA5_missing.k0in
+ * > kmer0 < data/simpleDNA5.k0in
 6
 GCGCC<-->cgcgg
 CGCCC<-->gcggg
@@ -40,6 +45,8 @@ CCC_G<-->ggg_c
 CC_G_<-->gg_c_
 C_G_G<-->g_c_c
  */
+
+
 int main() {
     // This string contains the list of nucleotides that are considered as
     // valid within a genetic sequence. The rest of characters are considered as
@@ -63,56 +70,58 @@ int main() {
     
     // Read K (integer) and a string with the input nucleotides list
     int k = 0;
-    string nucleotidesList = std::string.empty();
-    const char EOF = '0';
+    string genome = string();
     
-    string fileName = "";
-    std::cin >> fileName;
-    ifstream file(fileName.c_str());    
+    string inputFileName = "";
+    std::cin >> inputFileName;
+    ifstream inputFile(inputFileName.c_str(), ios::in);    
     
-    if (!file.is_open())
+    if (!inputFile.is_open())
     {
-        cout << "Error trying to open the file: "<<fileName<<std::endl;
+        cout << "Error trying to open the file: "<<inputFileName<<std::endl;
         exit(EXIT_FAILURE);
     }
     
-    file>>k;
+    inputFile>>k;
     
     char aCharToAdd;
-    while (file>>aCharToAdd && aCharToAdd!=EOF)
+    while (inputFile>>aCharToAdd)
     {
-        nucleotidesList += aCharToAdd;
+        genome.push_back(aCharToAdd);
     }
-    
     // Obtain the kmers: find the kmers in the input string and put them in an array of Kmers
     
-    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    int utils = 0;
+    for(int i = 0; (i <= genome.length()-k) && (i < DIM_ARRAY_KMERS); i++)
     {
-        string nucleotidesForKmer = std::string.empty();
-        for(int j = i ; j < i+k; j++)
-        {
-            nucleotidesForKmer += nucleotidesList[j];
-        }
-     
-        kmers[i] = Kmer(nucleotidesForKmer);
+        string kmer_str = genome.substr(i, k);
+        
+        Kmer kmer(kmer_str);
+        
+        kmers[i] = kmer;
+        utils++;
+        
     }
     // Normalize each Kmer in the array
     
-    //FALTA HACER ESTA PARTE (asignado a: sff)
+    for(int i = 0; i < utils; i++)
+    {
+        kmers[i].normalize(VALID_NUCLEOTIDES); 
+    }
     
     // Obtain the complementary kmers and turn them into lowercase
-    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    for(int i = 0; i < utils; i++)
     {
         complementaryKmers[i] = kmers[i].complementary(VALID_NUCLEOTIDES, COMPLEMENTARY_NUCLEOTIDES); 
     }
 
     // Show the list of kmers and complementary kmers as in the example
-    
-    for(int i = 0; i < DIM_ARRAY_KMERS; i++)
+    cout << utils << endl;
+    for(int i = 0; i < utils; i++)
     {
-        std::cout<<kmers[i].toString()<<"<->"<<complementaryKmers[i].toString()<<std::endl;
+        cout<<kmers[i].toString()<<"<->"<<complementaryKmers[i].toString()<<endl;
     }
     
-
+    
 }
 
