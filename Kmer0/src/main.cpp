@@ -5,12 +5,10 @@
 
 /* 
  * File:   main.cpp
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
  *
- * Created on 24 October 2023, 13:58
+ * Created on 8 March 2024, 13:58
  */
 
 #include <iostream>
@@ -58,7 +56,7 @@ int main() {
     const string COMPLEMENTARY_NUCLEOTIDES = "TGCA";
 
     // This is a constant with the dimension of the array kmers
-    const int DIM_ARRAY_KMERS = 100;
+    const int DIM_ARRAY_KMERS = 500;
     
     // This is the array where the kmers of the input genetic sequence will be
     // saved

@@ -5,12 +5,10 @@
 
 /** 
  * @file Kmer.h
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 24 October 2023, 14:00
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+ * Created on 8 March 2024, 13:58
  */
 
 #ifndef KMER_H
