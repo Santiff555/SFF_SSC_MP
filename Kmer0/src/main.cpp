@@ -56,7 +56,7 @@ int main() {
     const string COMPLEMENTARY_NUCLEOTIDES = "TGCA";
 
     // This is a constant with the dimension of the array kmers
-    const int DIM_ARRAY_KMERS = 500;
+    const int DIM_ARRAY_KMERS = 100;
     
     // This is the array where the kmers of the input genetic sequence will be
     // saved
@@ -101,7 +101,6 @@ int main() {
         
     }
     // Normalize each Kmer in the array
-    
     for(int i = 0; i < utils; i++)
     {
         kmers[i].normalize(VALID_NUCLEOTIDES); 
