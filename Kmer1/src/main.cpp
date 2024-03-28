@@ -16,6 +16,7 @@
 #include <string>
 
 #include "../include/Kmer.h"
+#include "../include/KmerFreq.h"
 
 using namespace std;
 
@@ -89,5 +90,10 @@ int main() {
         cout<<kmers[i].toString()<<"<->"<<complementaryKmers[i].toString()<<endl;
     }
     */
+     
+     KmerFreq test = KmerFreq();
+     
+     cout<<test.toString()<<endl;
+     
 }
 

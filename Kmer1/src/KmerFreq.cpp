@@ -13,4 +13,44 @@
  * Created on 27 de octubre de 2023, 11:03
  */
 
-#include "KmerFreq.h"
+#include "../include/KmerFreq.h"
+
+KmerFreq::KmerFreq()
+{
+    _frequency = 0;
+    _kmer = Kmer();
+}
+
+const Kmer& KmerFreq::getKmer() const
+{
+    return _kmer;
+}
+
+int KmerFreq::getFrequency() const
+{
+    return _frequency;
+}
+
+void KmerFreq::setKmer(const Kmer kmer)
+{
+    _kmer = kmer;
+}
+
+void KmerFreq::setFrequency(const int frequency)
+{
+    if(frequency < 0)
+    {
+        throw std::out_of_range ("Frequency out of range");
+    }
+    
+    _frequency = frequency;
+}
+
+std::string KmerFreq::toString() const
+{
+    std::string kmerFreqToString = "";
+    kmerFreqToString = _kmer.toString()+ " " + std::to_string(_frequency);
+    
+    return kmerFreqToString;
+}
+    
