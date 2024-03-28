@@ -8,7 +8,7 @@
  * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
  * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
  *
- * Created on 8 March 2024, 13:58
+ * Created on 28 March 2024, 13:58
  */
 
 #ifndef KMER_H

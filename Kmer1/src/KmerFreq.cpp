@@ -1,16 +1,14 @@
 /*
- * Metodología de la Programación: Kmer1
+ * Metodología de la Programación: Kmer0
  * Curso 2023/2024
  */
 
-/** 
- * @file KmerFreq.cpp
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 27 de octubre de 2023, 11:03
+/* 
+ * File:   KmerFreq.cpp
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+ * Created on 28 March 2024, 13:58
  */
 
 #include "../include/KmerFreq.h"

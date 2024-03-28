@@ -27,6 +27,7 @@ all: $(TARGETDIR_kmer1)/kmer1
 OBJS_kmer1 =  \
 	$(TARGETDIR_kmer1)/Kmer1.o \
 	$(TARGETDIR_kmer1)/KmerFreq.o \
+	$(TARGETDIR_kmer1)/ArrayKmerFreqFunctions.o \
 	$(TARGETDIR_kmer1)/main.o
 USERLIBS_kmer1 = $(SYSLIBS_kmer1) 
 DEPLIBS_kmer1 =  
@@ -45,6 +46,9 @@ $(TARGETDIR_kmer1)/Kmer1.o: $(TARGETDIR_kmer1) src/Kmer.cpp
 $(TARGETDIR_kmer1)/KmerFreq.o: $(TARGETDIR_kmer1) src/KmerFreq.cpp
 	$(COMPILE.cc) $(CCFLAGS_kmer1) $(CPPFLAGS_kmer1) -o $@ src/KmerFreq.cpp
 
+$(TARGETDIR_kmer1)/ArrayKmerFreqFunctions.o: $(TARGETDIR_kmer1) src/ArrayKmerFreqFunctions.cpp
+	$(COMPILE.cc) $(CCFLAGS_kmer1) $(CPPFLAGS_kmer1) -o $@ src/ArrayKmerFreqFunctions.cpp
+
 $(TARGETDIR_kmer1)/main.o: $(TARGETDIR_kmer1) src/main.cpp
 	$(COMPILE.cc) $(CCFLAGS_kmer1) $(CPPFLAGS_kmer1) -o $@ src/main.cpp
 
@@ -55,6 +59,7 @@ clean:
 	rm -f \
 		$(TARGETDIR_kmer1)/kmer1 \
 		$(TARGETDIR_kmer1)/Kmer1.o \
+	        $(TARGETDIR_kmer1)/ArrayKmerFreqFunctions.o \
 		$(TARGETDIR_kmer1)/main.o
 	$(CCADMIN)
 	rm -f -r $(TARGETDIR_kmer1)

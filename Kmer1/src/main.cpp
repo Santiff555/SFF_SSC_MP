@@ -8,92 +8,65 @@
  * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
  * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
  *
- * Created on 8 March 2024, 13:58
+ * Created on 28 March 2024, 13:58
  */
 
 #include <iostream>
-#include <fstream>
 #include <string>
 
-#include "../include/Kmer.h"
 #include "../include/KmerFreq.h"
+#include "../include/ArrayKmerFreqFunctions.h"
 
 using namespace std;
 
 /**
- * This program first reads from the standard input an integer k (length of Kmer)
- * and a string with a genetic sequence. Then, it obtains from the genetic 
- * sequence, the list of kmers (of length k) and saves them in the array kmers. 
- * Then, the kmers are normalized. After that, the complementary kmers, 
- * converted to lowercase, are saved in the array complementaryKmers. Finally 
- * the kmers in the arrays kmers and complementaryKmers are shown in the 
- * standard output.
- * See the next example:
+ * This program reads from the stardard input, an integer n (number of 
+ * elements in the list of pairs kmer-frequency) and a list of n pairs 
+ * kmer-frequency. The pairs should be stored in an array (local variable 
+ * in main() ), and then each one of the Kmers in the array must be 
+ * normalized (all its characters are converted to uppercase
+ * and invalid characters are replaced by the MISSING_NUCLEOTIDE character)
+ * and zipped (those pairs with a missing nucleotide or with a 
+ * frequency less or equals to zero must be deleted from the array). Next, 
+ * the array should be sorted in decreasing 
+ * order of frequency (if two pairs have the same frequency, the pair with a 
+ * minor Kmer should appear first in the array). Finally, the program shows the 
+ * array in the standard output. 
  * 
  * Running example:
- * > kmer0 < data/easyDNA2_missing.k0in
- * > kmer0 < data/easyDNA3.k0in
- * > kmer0 < data/easyDNA5.k0in
- * > kmer0 < data/easyDNA5_missing.k0in
- * > kmer0 < data/simpleDNA5.k0in
-6
-GCGCC<-->cgcgg
-CGCCC<-->gcggg
-GCCC_<-->cggg_
-CCC_G<-->ggg_c
-CC_G_<-->gg_c_
-C_G_G<-->g_c_c
+ * > kmer1 < data/6pairsDNA_missing.k1in
+2
+CC 3
+GC 2
  */
-
-
-int main() {
+int main(int argc, char* argv[]) {
     // This string contains the list of nucleotides that are considered as
     // valid within a genetic sequence. The rest of characters are considered as
     // unknown nucleotides 
     const string VALID_NUCLEOTIDES = "ACGT";
     
-    // This string contains the list of complementary nucleotides for each
-    // nucleotide in validNucleotides
-    const string COMPLEMENTARY_NUCLEOTIDES = "TGCA";
-
     // This is a constant with the dimension of the array kmers
-    const int DIM_ARRAY_KMERS = 100;
+    const int DIM_ARRAY_KMERS=100;
     
-    // This is the array where the kmers of the input genetic sequence will be
-    // saved
-    Kmer kmers[DIM_ARRAY_KMERS];
+    // This is the array where the kmers read from the standard input 
+    // will be stored
+    KmerFreq kmers[DIM_ARRAY_KMERS];
     
-    // This is the array where the complementary kmers will be
-    // saved
-    Kmer complementaryKmers[DIM_ARRAY_KMERS];
-   
+    int nKmers; // Number of elements in the array kmers
+
     // Read an integer n (number of pairs to read)
-     int n = 0;
-    
+    // Ya lo hace el metodo ReadArrayKmerFreq
     // Read the n pairs kmers-frequency from the standard input and put them 
     //      in the array kmers
-    
-    // Normalize each Kmer in the array
-    /*for(int i = 0; i < utils; i++)
-    {
-        kmers[i].normalize(VALID_NUCLEOTIDES); 
-    }
-    */
+    ReadArrayKmerFreq(kmers, DIM_ARRAY_KMERS, nKmers);
+    // Normalizes each kmer in the array kmers
+    NormalizeArrayKmerFreq(kmers, nKmers, VALID_NUCLEOTIDES);
     // Zip the kmers in the array kmers
-    
+    ZipArrayKmerFreq(kmers,nKmers);
     // Sort the array kmers
-    
+    SortArrayKmerFreq(kmers,nKmers);
     // Print the array kmers in the standard output
-    /*cout << utils << endl;
-    for(int i = 0; i < utils; i++)
-    {
-        cout<<kmers[i].toString()<<"<->"<<complementaryKmers[i].toString()<<endl;
-    }
-    */
-     
-     KmerFreq test = KmerFreq();
-     
-     cout<<test.toString()<<endl;
-     
+    PrintArrayKmerFreq(kmers, nKmers);
+    return 0;
 }
 

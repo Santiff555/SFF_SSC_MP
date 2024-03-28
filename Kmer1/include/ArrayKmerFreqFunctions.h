@@ -6,18 +6,18 @@
 
 /** 
  * @file ArrayKmerFreqFunctions.h
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 27 October 2023, 11:00
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+ * Created on 28 March 2024, 13:58
  */
 #ifndef ARRAYKMERMFREQFUNCTIONS_H
 #define ARRAYKMERFREQFUNCTIONS_H
 
 #include "KmerFreq.h"
 #include <string>
+#include <iostream>
+#include <fstream>
 
 /**
  * @brief Reads the number of used elements and the elements of an array of
@@ -29,7 +29,7 @@
  * @param nElements The number of elements used by the array. Note that this
  * integer could be modified in this function. Output parameter
 */
-void ReadArrayKmerFreq(KmerFreq array[], int dim, int nElements);
+void ReadArrayKmerFreq(KmerFreq array[], const int dim, int &nElements);
 
 /**
  * @brief Prints in the standard output the number of used elements and the 
@@ -74,7 +74,7 @@ int FindKmerInArrayKmerFreq(KmerFreq array[], Kmer kmer,
  * @param array An array of KmerFreq. Input/output parameter
  * @param nElements The number of elements used by the array. Input parameter
 */
-void SortArrayKmerFreq(KmerFreq array[], int nElements);
+void SortArrayKmerFreq(KmerFreq array[], const int nElements);
 
 
 /**
@@ -124,7 +124,7 @@ void NormalizeArrayKmerFreq(KmerFreq array[], int nElements,
  * @throw std::out_of_range Throws an std::out_of_range exception if @p pos 
  * is not in the range from 0 to nElements-1 (both included).
  */
-void DeletePosArrayKmerFreq(KmerFreq array[], int nElements, int pos);
+void DeletePosArrayKmerFreq(KmerFreq array[], int &nElements, const int pos);
 
 /**
  * @brief Deletes the KmerFreq objects from the argument array which verifies
@@ -146,8 +146,8 @@ void DeletePosArrayKmerFreq(KmerFreq array[], int nElements, int pos);
  * frequency less or equals to this value, are deleted. This parameter has zero
  * as default value. Input parameter
  */
-void ZipArrayKmerFreq(KmerFreq array[], int nElements, 
-        bool deleteMissing=false, int lowerBound=0);
+void ZipArrayKmerFreq(KmerFreq array[], int &nElements, 
+        const bool deleteMissing=false, const int lowerBound=0);
 
 #endif /* ARRAYKMERFREQFUNCTIONS_H */
 
