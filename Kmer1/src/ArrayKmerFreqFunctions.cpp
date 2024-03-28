@@ -42,7 +42,7 @@ void ReadArrayKmerFreq(KmerFreq array[], const int dim, int &nElements)
     int aFreqToAdd;
     int i = 0;
 
-    while (inputFile >> aFreqToAdd && inputFile >> aKmerToAdd && i<nElements)
+    while (inputFile >> aKmerToAdd && inputFile >> aFreqToAdd && i<nElements)
     {
         array[i].setKmer(Kmer(aKmerToAdd));
         array[i].setFrequency(aFreqToAdd);
@@ -128,7 +128,11 @@ void NormalizeArrayKmerFreq(KmerFreq array[], const int nElements,
 
 void PrintArrayKmerFreq(KmerFreq array[], int nElements)
 {
-    
+    std::cout<<nElements<<std::endl;
+    for(int i = 0; i<nElements; i++)
+    {
+        std::cout<<array[i].toString()<<std::endl;
+    }
 }
 
 int FindKmerInArrayKmerFreq(KmerFreq array[], Kmer kmer,
