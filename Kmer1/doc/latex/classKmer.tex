@@ -1,0 +1,372 @@
+\hypertarget{classKmer}{}\section{Kmer Class Reference}
+\label{classKmer}\index{Kmer@{Kmer}}
+
+
+It represents a list of k consecutive nucleotides of a D\+NA or R\+NA sequence. Each nucleotide is represented with a character like \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}.  
+
+
+
+
+{\ttfamily \#include $<$Kmer.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classKmer_abc5e0d1f463758603c9590b7cee4e500}{Kmer} (int k=1)
+\begin{DoxyCompactList}\small\item\em It builds a \hyperlink{classKmer}{Kmer} object using a string with {\ttfamily k} characters (nucleotides). Each character will be set to the value {\ttfamily M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE}. \end{DoxyCompactList}\item 
+\hyperlink{classKmer_a712f590bb809f86badfef9f3f0998f44}{Kmer} (const std\+::string \&text)
+\begin{DoxyCompactList}\small\item\em It builds a \hyperlink{classKmer}{Kmer} object with the characters in the string {\ttfamily text} representing the list of nucleotides of the new \hyperlink{classKmer}{Kmer}. \end{DoxyCompactList}\item 
+int \hyperlink{classKmer_abba3593449208b49650b204df1b5201c}{getK} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of nucleotides in this \hyperlink{classKmer}{Kmer}. Query method. \end{DoxyCompactList}\item 
+int \hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of nucleotides in this \hyperlink{classKmer}{Kmer}. Query method. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classKmer_a4d1c9969f5777817084e86c6b2df8778}{to\+String} () const 
+\begin{DoxyCompactList}\small\item\em Returns a string with a list of characters, each one representing a nucleotide of this \hyperlink{classKmer}{Kmer}. Query method. \end{DoxyCompactList}\item 
+const char \& \hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at} (int index) const 
+\begin{DoxyCompactList}\small\item\em Gets a const reference to the character (nucleotide) at the given position. Query method. \end{DoxyCompactList}\item 
+char \& \hyperlink{classKmer_a466f592726dc24951744b13ce0692fc1}{at} (int index)
+\begin{DoxyCompactList}\small\item\em Gets a reference to the character (nucleotide) at the given position. Modifier method. \end{DoxyCompactList}\item 
+void \hyperlink{classKmer_ac4f03c56da85aed417d2139199e7a6bd}{normalize} (const std\+::string \&valid\+Nucleotides)
+\begin{DoxyCompactList}\small\item\em Normalizes this \hyperlink{classKmer}{Kmer}. That is, it converts all the characters to uppercase. Then, invalid characters are replaced by the M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE value. Modifier method. \end{DoxyCompactList}\item 
+\hyperlink{classKmer}{Kmer} \hyperlink{classKmer_a0ae182d0892b67c8cd96de740550032e}{complementary} (const std\+::string \&nucleotides, const std\+::string \&complementary\+Nucleotides) const 
+\begin{DoxyCompactList}\small\item\em Returns the complementary of this \hyperlink{classKmer}{Kmer}. For example, given the \hyperlink{classKmer}{Kmer} \char`\"{}\+T\+A\+G\+A\+C\char`\"{}, the complementary is \char`\"{}\+A\+T\+C\+T\+G\char`\"{} (assuming that we use. {\ttfamily nucleotides=\char`\"{}\+A\+T\+G\+C\char`\"{}} and {\ttfamily complementary\+Nucleotides=\char`\"{}\+T\+A\+C\+G\char`\"{}}). If a nucleotide in this object is not in {\ttfamily nucleotides}, then that nucleotide remains the same in the returned kmer. Query method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char \hyperlink{classKmer_a4cdc2682181a0435d9fe703316fad091}{M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE} = \textquotesingle{}\+\_\+\textquotesingle{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+It represents a list of k consecutive nucleotides of a D\+NA or R\+NA sequence. Each nucleotide is represented with a character like \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}. 
+
+Definition at line 26 of file Kmer.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Kmer@{Kmer}!Kmer@{Kmer}}
+\index{Kmer@{Kmer}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{Kmer(int k=1)}{Kmer(int k=1)}}]{\setlength{\rightskip}{0pt plus 5cm}Kmer\+::\+Kmer (
+\begin{DoxyParamCaption}
+\item[{int}]{k = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\hypertarget{classKmer_abc5e0d1f463758603c9590b7cee4e500}{}\label{classKmer_abc5e0d1f463758603c9590b7cee4e500}
+
+
+It builds a \hyperlink{classKmer}{Kmer} object using a string with {\ttfamily k} characters (nucleotides). Each character will be set to the value {\ttfamily M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE}. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & Throws an std\+::invalid\+\_\+argument exception if {\ttfamily k} is less or equal than zero \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em k} & the number of nucleotides in this \hyperlink{classKmer}{Kmer}. It should be an integer greater than zero. Input parameter \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 18 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+19 \{
+20     \textcolor{keywordflow}{if}(k <= 0)
+21     \{
+22         \textcolor{keywordflow}{throw} std::invalid\_argument(\textcolor{stringliteral}{"Input must be a integrer greater that 0 "});
+23     \}
+24     
+25     this->\_text = std::string(k, \hyperlink{classKmer_a4cdc2682181a0435d9fe703316fad091}{MISSING\_NUCLEOTIDE});
+26 
+27 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!Kmer@{Kmer}}
+\index{Kmer@{Kmer}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{Kmer(const std\+::string \&text)}{Kmer(const std::string &text)}}]{\setlength{\rightskip}{0pt plus 5cm}Kmer\+::\+Kmer (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{text}
+\end{DoxyParamCaption}
+)}\hypertarget{classKmer_a712f590bb809f86badfef9f3f0998f44}{}\label{classKmer_a712f590bb809f86badfef9f3f0998f44}
+
+
+It builds a \hyperlink{classKmer}{Kmer} object with the characters in the string {\ttfamily text} representing the list of nucleotides of the new \hyperlink{classKmer}{Kmer}. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & Throws an std\+::invalid\+\_\+argument exception if the given text is empty \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em text} & a string with the characters representing the nucleotides for the kmer. It should be a string with at least one character. Input parameter \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+30 \{
+31     \textcolor{keywordflow}{if}(text.empty())
+32     \{
+33         \textcolor{keywordflow}{throw} std::invalid\_argument(\textcolor{stringliteral}{"Input must be a string with at least one character. "});
+34     \}
+35     \_text = text;
+36 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Kmer@{Kmer}!at@{at}}
+\index{at@{at}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{at(int index) const }{at(int index) const }}]{\setlength{\rightskip}{0pt plus 5cm}const char \& Kmer\+::at (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+) const}\hypertarget{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{}\label{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}
+
+
+Gets a const reference to the character (nucleotide) at the given position. Query method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & the position to consider. Input parameter \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::out\+\_\+of\+\_\+range} & Throws an std\+::out\+\_\+of\+\_\+range exception if the index is not in the range from 0 to k-\/1 (both included). \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+A const reference to the character at the given position 
+\end{DoxyReturn}
+
+
+Definition at line 53 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+54 \{
+55     \textcolor{keywordflow}{if}(index < 0 || index >= this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}())
+56     \{
+57          \textcolor{keywordflow}{throw} std::out\_of\_range (\textcolor{stringliteral}{"Index out of range"});
+58     \}
+59     \textcolor{keywordflow}{return} \_text.at(index);
+60 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!at@{at}}
+\index{at@{at}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{at(int index)}{at(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}char \& Kmer\+::at (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}\hypertarget{classKmer_a466f592726dc24951744b13ce0692fc1}{}\label{classKmer_a466f592726dc24951744b13ce0692fc1}
+
+
+Gets a reference to the character (nucleotide) at the given position. Modifier method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & the position to consider. Input parameter \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::out\+\_\+of\+\_\+range} & Throws an std\+::out\+\_\+of\+\_\+range exception if the index is not in the range from 0 to k-\/1 (both included). \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+A reference to the character at the given position 
+\end{DoxyReturn}
+
+
+Definition at line 62 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+63 \{
+64     \textcolor{keywordflow}{if}(index < 0 || index >= this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}())
+65     \{
+66          \textcolor{keywordflow}{throw} std::out\_of\_range (\textcolor{stringliteral}{"Index out of range"});
+67     \}
+68     
+69     \textcolor{keywordflow}{return} \_text.at(index);
+70 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!complementary@{complementary}}
+\index{complementary@{complementary}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{complementary(const std\+::string \&nucleotides, const std\+::string \&complementary\+Nucleotides) const }{complementary(const std::string &nucleotides, const std::string &complementaryNucleotides) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Kmer} Kmer\+::complementary (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{nucleotides, }
+\item[{const std\+::string \&}]{complementary\+Nucleotides}
+\end{DoxyParamCaption}
+) const}\hypertarget{classKmer_a0ae182d0892b67c8cd96de740550032e}{}\label{classKmer_a0ae182d0892b67c8cd96de740550032e}
+
+
+Returns the complementary of this \hyperlink{classKmer}{Kmer}. For example, given the \hyperlink{classKmer}{Kmer} \char`\"{}\+T\+A\+G\+A\+C\char`\"{}, the complementary is \char`\"{}\+A\+T\+C\+T\+G\char`\"{} (assuming that we use. {\ttfamily nucleotides=\char`\"{}\+A\+T\+G\+C\char`\"{}} and {\ttfamily complementary\+Nucleotides=\char`\"{}\+T\+A\+C\+G\char`\"{}}). If a nucleotide in this object is not in {\ttfamily nucleotides}, then that nucleotide remains the same in the returned kmer. Query method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nucleotides} & A string with the list of possible nucleotides. Input parameter \\
+\hline
+{\em complementary\+Nucleotides} & A string with the list of complementary nucleotides. Input parameter \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & Throws an std\+::invalid\+\_\+argument exception if the sizes of {\ttfamily nucleotides} and {\ttfamily complementary\+Nucleotides} are not the same \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+The complementary of this \hyperlink{classKmer}{Kmer} 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+84 \{
+85     \hyperlink{classKmer}{Kmer} solution = \hyperlink{classKmer_abc5e0d1f463758603c9590b7cee4e500}{Kmer}(this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}());  
+86     \textcolor{keywordflow}{if}(nucleotides.size() != complementaryNucleotides.size())
+87     \{
+88         \textcolor{keywordflow}{throw} std::invalid\_argument(\textcolor{stringliteral}{"Both strings have to be the same size "});
+89     \}
+90     
+91     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}(); i++)
+92     \{
+93         \textcolor{keywordtype}{int} nucleotidIndex = nucleotides.find(this->\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i));
+94         \textcolor{keywordflow}{if}(nucleotidIndex != std::string::npos)
+95         \{
+96             solution.\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i) = complementaryNucleotides.at(nucleotidIndex);
+97         \}
+98     \}
+99     
+100     \hyperlink{Kmer_8cpp_a77194578942a94dd58a0d5721ffa89d4}{ToLower}(solution); \textcolor{comment}{//Sale en el video}
+101     
+102     \textcolor{keywordflow}{return} solution;
+103 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!getK@{getK}}
+\index{getK@{getK}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{get\+K() const }{getK() const }}]{\setlength{\rightskip}{0pt plus 5cm}Kmer\+::getK (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classKmer_abba3593449208b49650b204df1b5201c}{}\label{classKmer_abba3593449208b49650b204df1b5201c}
+
+
+Returns the number of nucleotides in this \hyperlink{classKmer}{Kmer}. Query method. 
+
+\begin{DoxyReturn}{Returns}
+the number of nucleotides in this \hyperlink{classKmer}{Kmer} 
+\end{DoxyReturn}
+
+
+Definition at line 38 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+39 \{
+40     \textcolor{keywordflow}{return} this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}();
+41 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!normalize@{normalize}}
+\index{normalize@{normalize}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{normalize(const std\+::string \&valid\+Nucleotides)}{normalize(const std::string &validNucleotides)}}]{\setlength{\rightskip}{0pt plus 5cm}void Kmer\+::normalize (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{valid\+Nucleotides}
+\end{DoxyParamCaption}
+)}\hypertarget{classKmer_ac4f03c56da85aed417d2139199e7a6bd}{}\label{classKmer_ac4f03c56da85aed417d2139199e7a6bd}
+
+
+Normalizes this \hyperlink{classKmer}{Kmer}. That is, it converts all the characters to uppercase. Then, invalid characters are replaced by the M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE value. Modifier method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em valid\+Nucleotides} & a string with the list of characters (nucleotides) that should be considered as valid. Input parameter \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 72 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+73 \{
+74     \hyperlink{Kmer_8cpp_a529f93b76b54a04d3d72be14476cd38e}{ToUpper}(*\textcolor{keyword}{this});
+75     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0 ; i < this->\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}() ; i++)\{
+76         \textcolor{keywordflow}{if} (!\hyperlink{Kmer_8cpp_ab37d45ac1439c9a30303f1c023d825fc}{IsValidNucleotide}(this->\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i), validNucleotides))\{
+77             this->\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i) = \hyperlink{classKmer_a4cdc2682181a0435d9fe703316fad091}{MISSING\_NUCLEOTIDE};
+78         \}
+79     \}
+80 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!size@{size}}
+\index{size@{size}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{size() const }{size() const }}]{\setlength{\rightskip}{0pt plus 5cm}Kmer\+::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{}\label{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}
+
+
+Returns the number of nucleotides in this \hyperlink{classKmer}{Kmer}. Query method. 
+
+\begin{DoxyReturn}{Returns}
+the number of nucleotides in this \hyperlink{classKmer}{Kmer} 
+\end{DoxyReturn}
+
+
+Definition at line 43 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+44 \{
+45     \textcolor{keywordflow}{return} \_text.size();
+46 \}
+\end{DoxyCode}
+\index{Kmer@{Kmer}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{to\+String() const }{toString() const }}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Kmer\+::to\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classKmer_a4d1c9969f5777817084e86c6b2df8778}{}\label{classKmer_a4d1c9969f5777817084e86c6b2df8778}
+
+
+Returns a string with a list of characters, each one representing a nucleotide of this \hyperlink{classKmer}{Kmer}. Query method. 
+
+\begin{DoxyReturn}{Returns}
+The text of this \hyperlink{classKmer}{Kmer} as a string object 
+\end{DoxyReturn}
+
+
+Definition at line 48 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+49 \{
+50     \textcolor{keywordflow}{return} \_text;
+51 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Kmer@{Kmer}!M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE@{M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE}}
+\index{M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE@{M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE}!Kmer@{Kmer}}
+\subsubsection[{\texorpdfstring{M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE}{MISSING_NUCLEOTIDE}}]{\setlength{\rightskip}{0pt plus 5cm}const char Kmer\+::\+M\+I\+S\+S\+I\+N\+G\+\_\+\+N\+U\+C\+L\+E\+O\+T\+I\+DE = \textquotesingle{}\+\_\+\textquotesingle{}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classKmer_a4cdc2682181a0435d9fe703316fad091}{}\label{classKmer_a4cdc2682181a0435d9fe703316fad091}
+A static const character representing an unknown nucleotide. It is used when we do not known which nucleotide we have in a given position of a \hyperlink{classKmer}{Kmer} 
+
+Definition at line 33 of file Kmer.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Kmer_8h}{Kmer.\+h}\item 
+src/\hyperlink{Kmer_8cpp}{Kmer.\+cpp}\end{DoxyCompactItemize}
