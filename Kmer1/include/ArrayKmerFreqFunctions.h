@@ -37,7 +37,7 @@ void ReadArrayKmerFreq(KmerFreq array[], const int dim, int &nElements);
  * @param array The array of KmerFreq to be printed. Input parameter
  * @param nElements The number of elements used by the array. Input parameter
 */
-void PrintArrayKmerFreq(KmerFreq array[], int nElements);
+void PrintArrayKmerFreq(KmerFreq array[], const int nElements);
 
 /**
  * @brief Swaps the elements at positions @p first and @p second in the given

@@ -126,7 +126,7 @@ void NormalizeArrayKmerFreq(KmerFreq array[], const int nElements,
                // Delete from the array, the kmer at position i 
 }
 
-void PrintArrayKmerFreq(KmerFreq array[], int nElements)
+void PrintArrayKmerFreq(KmerFreq array[], const int nElements)
 {
     std::cout<<nElements<<std::endl;
     for(int i = 0; i<nElements; i++)
