@@ -98,7 +98,7 @@ void ZipArrayKmerFreq(KmerFreq array[], int &nElements,
             for(int j = 0; j<kmer.size() || kmerHasMissing; j++)
             {
                 if(kmer.at(j) == kmer.MISSING_NUCLEOTIDE){
-                    kmerHasMissing == true;
+                    kmerHasMissing = true;
                 }
             }
             
@@ -112,18 +112,35 @@ void ZipArrayKmerFreq(KmerFreq array[], int &nElements,
 
 void NormalizeArrayKmerFreq(KmerFreq array[], const int nElements, 
         const std::string validNucleotides){ 
-    
+   	
+	ToUpper(*this);
+   	for (int i=0 ; i<this->size() ; i++){
+		if (!IsValidNucleotide(this->at(i), validNucleotides)){
+           		this->at(i) = MISSING_NUCLEOTIDE;
+		}
+	}
+	for (int i=0 ; i<nElements ; i++){
+		for (int j=0 ; j<nElements ; j++){
+			if (array[i]==array[j]){
+				array[i] += array[j].getFrequency();
+				DeletePosArrayKmerFreq(array,nElements,j);
+			}
+		}
+	}
+
     // Loop to traverse and normalize each one of the kmers in array
-          // Normalize kmer i
-    
-    
+          // Normalize kmer i    
     // Loop to traverse the kmers in array from position 1 to position nElements-1
           // index = Position of array[i].getKmer() in the subarray that begins
           //         at position 0 and ends at position i-1
           // If array[i].getKmer() was found in the the subarray from 0 to i-1 
                // Accumulate the frequencies of the kmers at positions 
                //    index and i in the kmer at position index
-               // Delete from the array, the kmer at position i 
+               // Delete from the array, the kmer at position i
+	toupper(*this);
+	for (int i=0 ; i<nElements ; i++){
+
+ 
 }
 
 void PrintArrayKmerFreq(KmerFreq array[], const int nElements)
@@ -138,11 +155,17 @@ void PrintArrayKmerFreq(KmerFreq array[], const int nElements)
 int FindKmerInArrayKmerFreq(KmerFreq array[], Kmer kmer,
         int initialPos, int finalPos)
 {
-    return 0;
+	for (int i=initialPos; i<=finalPos; i++) {
+        	if (array[i]==kmer) {
+            		return i;
+        	}
+    	}
+return 0;
 }
-
-void SwapElementsArrayKmerFreq(KmerFreq array[], int nElements, int first,
+void SwapElementsArrayKmerFreq(KmerFreq &array[], int nElements, int first,
                 int second)
 {
-    
+	int aux = array[first];
+	array[first] = array[second];
+	array[second] = aux;
 }
