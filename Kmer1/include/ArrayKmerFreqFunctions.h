@@ -111,8 +111,8 @@ _G 5
  * @param validNucleotides a string with the list of characters (nucleotides) 
  * that should be considered as valid. Input parameter
 */
-void NormalizeArrayKmerFreq(KmerFreq array[], int nElements, 
-        std::string validNucleotides);
+void NormalizeArrayKmerFreq(KmerFreq array[],  int &nElements, 
+        const std::string validNucleotides);
 
 /**
  * @brief Deletes the KmerFreq object from the argument array that is at 

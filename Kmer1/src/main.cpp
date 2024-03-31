@@ -62,9 +62,9 @@ int main(int argc, char* argv[]) {
     // Normalizes each kmer in the array kmers
     NormalizeArrayKmerFreq(kmers, nKmers, VALID_NUCLEOTIDES);
     // Zip the kmers in the array kmers
-    ZipArrayKmerFreq(kmers,nKmers);
+    ZipArrayKmerFreq(kmers,nKmers,true);
     // Sort the array kmers
-    SortArrayKmerFreq(kmers,nKmers);
+    //SortArrayKmerFreq(kmers,nKmers);
     // Print the array kmers in the standard output
     PrintArrayKmerFreq(kmers, nKmers);
     return 0;
