@@ -54,8 +54,8 @@ void SortArrayKmerFreq(KmerFreq array[], const int nElements)
 {
    //Bubble sort
     for (int i = 0; i < nElements - 1; i++){
-        for (int j = 0; j < nElements - i - 1; j++) { 
-            if(array[i].getFrequency() > array[j].getFrequency()){
+        for (int j = i+1; j < nElements ; j++) { 
+            if(array[i].getFrequency() < array[j].getFrequency()){
                   SwapElementsArrayKmerFreq(array,nElements,i,j);
             }
         }
@@ -79,29 +79,30 @@ void DeletePosArrayKmerFreq(KmerFreq array[], int &nElements, const int pos)
 void ZipArrayKmerFreq(KmerFreq array[], int &nElements, 
         const bool deleteMissing, const int lowerBound)
 {
-    for(int i = 0; i<nElements; ++i)
+    for(int i = 0; i < nElements; ++i)
     {
         if(array[i].getFrequency() <= lowerBound)
         {
             DeletePosArrayKmerFreq(array,nElements,i);
         }
         
-        else if(deleteMissing)
+        if(deleteMissing)
         {
             Kmer kmer = array[i].getKmer();
             bool kmerHasMissing = false;
             
-            for(int j = 0; j<kmer.size() && !kmerHasMissing; ++j)
+            
+            for(int j = 0; j<kmer.size(); ++j)
             {
                 if(kmer.at(j) == kmer.MISSING_NUCLEOTIDE){
                     kmerHasMissing = true;
-                    std::cout<<kmer.toString()<<std::endl;
                 }
             }
             
             if(kmerHasMissing)
             {
                 DeletePosArrayKmerFreq(array,nElements,i);
+                i--; // Necesitamos hacerlo porque si no se salta el siguiente elemento por la iteración del bucle.
             }
         }
     }
@@ -160,8 +161,8 @@ int FindKmerInArrayKmerFreq(KmerFreq array[], const Kmer kmer,
     }
     return -1;
 }
-void SwapElementsArrayKmerFreq(KmerFreq array[], int nElements, int first,
-                int second)
+void SwapElementsArrayKmerFreq(KmerFreq array[], const int nElements, const int first,
+                const int second)
 {
 	KmerFreq aux = array[first];
 	array[first] = array[second];

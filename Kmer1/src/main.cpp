@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     // Zip the kmers in the array kmers
     ZipArrayKmerFreq(kmers,nKmers,true);
     // Sort the array kmers
-    //SortArrayKmerFreq(kmers,nKmers);
+    SortArrayKmerFreq(kmers,nKmers);
     // Print the array kmers in the standard output
     PrintArrayKmerFreq(kmers, nKmers);
     return 0;
