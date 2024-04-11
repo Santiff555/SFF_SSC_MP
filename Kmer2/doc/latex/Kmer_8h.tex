@@ -1,0 +1,124 @@
+\hypertarget{Kmer_8h}{}\section{include/\+Kmer.h File Reference}
+\label{Kmer_8h}\index{include/\+Kmer.\+h@{include/\+Kmer.\+h}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classKmer}{Kmer}
+\begin{DoxyCompactList}\small\item\em It represents a list of k consecutive nucleotides of a D\+NA or R\+NA sequence. Each nucleotide is represented with a character like \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{Kmer_8h_ab37d45ac1439c9a30303f1c023d825fc}{Is\+Valid\+Nucleotide} (char nucleotide, const std\+::string \&valid\+Nucleotides)
+\begin{DoxyCompactList}\small\item\em Checks if the given nucleotide is contained in {\ttfamily valid\+Nucleotides}. That is, if the given character can be considered as part of a genetic sequence. \end{DoxyCompactList}\item 
+void \hyperlink{Kmer_8h_a77194578942a94dd58a0d5721ffa89d4}{To\+Lower} (\hyperlink{classKmer}{Kmer} \&kmer)
+\begin{DoxyCompactList}\small\item\em Converts to lowercase the characters (nucleotides) of the given \hyperlink{classKmer}{Kmer}. \end{DoxyCompactList}\item 
+void \hyperlink{Kmer_8h_a529f93b76b54a04d3d72be14476cd38e}{To\+Upper} (\hyperlink{classKmer}{Kmer} \&kmer)
+\begin{DoxyCompactList}\small\item\em Converts to uppercase the characters (nucleotides) of the given \hyperlink{classKmer}{Kmer}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Santiago Fernández Fernández \href{mailto:santiff55@correo.ugr.es}{\tt santiff55@correo.\+ugr.\+es} 
+
+Santiago Salazar Cano \href{mailto:santyns17@correo.ugr.es}{\tt santyns17@correo.\+ugr.\+es}
+\end{DoxyAuthor}
+Created on 8 March 2024, 13\+:58 
+
+\subsection{Function Documentation}
+\index{Kmer.\+h@{Kmer.\+h}!Is\+Valid\+Nucleotide@{Is\+Valid\+Nucleotide}}
+\index{Is\+Valid\+Nucleotide@{Is\+Valid\+Nucleotide}!Kmer.\+h@{Kmer.\+h}}
+\subsubsection[{\texorpdfstring{Is\+Valid\+Nucleotide(char nucleotide, const std\+::string \&valid\+Nucleotides)}{IsValidNucleotide(char nucleotide, const std::string &validNucleotides)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Is\+Valid\+Nucleotide (
+\begin{DoxyParamCaption}
+\item[{char}]{nucleotide, }
+\item[{const std\+::string \&}]{valid\+Nucleotides}
+\end{DoxyParamCaption}
+)}\hypertarget{Kmer_8h_ab37d45ac1439c9a30303f1c023d825fc}{}\label{Kmer_8h_ab37d45ac1439c9a30303f1c023d825fc}
+
+
+Checks if the given nucleotide is contained in {\ttfamily valid\+Nucleotides}. That is, if the given character can be considered as part of a genetic sequence. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nucleotide} & The nucleotide (a character) to check. Input parameter \\
+\hline
+{\em valid\+Nucleotides} & The set of characters that we consider as possible characters in a genetic sequence. Input parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the given character is contained in {\ttfamily valid\+Nucleotides}; false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+106 \{
+107     \textcolor{keywordtype}{bool} solution = \textcolor{keyword}{true};
+108     \textcolor{keywordflow}{if}(validNucleotides.find(nucleotide) == std::string::npos)
+109     \{
+110         solution = \textcolor{keyword}{false};
+111     \}
+112     
+113     \textcolor{keywordflow}{return} solution;
+114 \}
+\end{DoxyCode}
+\index{Kmer.\+h@{Kmer.\+h}!To\+Lower@{To\+Lower}}
+\index{To\+Lower@{To\+Lower}!Kmer.\+h@{Kmer.\+h}}
+\subsubsection[{\texorpdfstring{To\+Lower(\+Kmer \&kmer)}{ToLower(Kmer &kmer)}}]{\setlength{\rightskip}{0pt plus 5cm}void To\+Lower (
+\begin{DoxyParamCaption}
+\item[{{\bf Kmer} \&}]{kmer}
+\end{DoxyParamCaption}
+)}\hypertarget{Kmer_8h_a77194578942a94dd58a0d5721ffa89d4}{}\label{Kmer_8h_a77194578942a94dd58a0d5721ffa89d4}
+
+
+Converts to lowercase the characters (nucleotides) of the given \hyperlink{classKmer}{Kmer}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kmer} & A \hyperlink{classKmer}{Kmer} object. Output parameter \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 116 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+117 \{ 
+118     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<kmer.\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}(); i++)
+119     \{
+120         kmer.\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i) = tolower(kmer.\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i));
+121     \}
+122 \}
+\end{DoxyCode}
+\index{Kmer.\+h@{Kmer.\+h}!To\+Upper@{To\+Upper}}
+\index{To\+Upper@{To\+Upper}!Kmer.\+h@{Kmer.\+h}}
+\subsubsection[{\texorpdfstring{To\+Upper(\+Kmer \&kmer)}{ToUpper(Kmer &kmer)}}]{\setlength{\rightskip}{0pt plus 5cm}void To\+Upper (
+\begin{DoxyParamCaption}
+\item[{{\bf Kmer} \&}]{kmer}
+\end{DoxyParamCaption}
+)}\hypertarget{Kmer_8h_a529f93b76b54a04d3d72be14476cd38e}{}\label{Kmer_8h_a529f93b76b54a04d3d72be14476cd38e}
+
+
+Converts to uppercase the characters (nucleotides) of the given \hyperlink{classKmer}{Kmer}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kmer} & A \hyperlink{classKmer}{Kmer} object. Output parameter \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 124 of file Kmer.\+cpp.
+
+
+\begin{DoxyCode}
+125 \{
+126     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<kmer.\hyperlink{classKmer_a1bfb58daeb049f2fc31acad74acf8f21}{size}(); i++)
+127     \{
+128         kmer.\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i) = toupper(kmer.\hyperlink{classKmer_ab4ce84f7b3cac79896c1ca08124694a9}{at}(i));
+129     \}   
+130 \}\end{DoxyCode}
