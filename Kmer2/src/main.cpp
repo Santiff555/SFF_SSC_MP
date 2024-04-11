@@ -96,6 +96,5 @@ int main(int argc, char* argv[]) {
 
     // Save the final Profile to the output file
     }
-    Profile profile = Profile(5);
     return 0;
 }

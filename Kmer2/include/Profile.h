@@ -91,14 +91,14 @@ public:
      * Query method
      * @return The number of KmerFreq objects 
      */
-    int getSize();
+    int getSize() const;
     
     /**
      * @brief Gets the capacity of the vector of KmerFreq objects.
      * Query method
      * @return The capacity of the vector of KmerFreq objects
      */
-    int getCapacity();
+    int getCapacity() const;
     
     /**
      * @brief Searchs the given kmer in the list of kmers in this
@@ -113,7 +113,7 @@ public:
      * @return If found, it returns the position where the kmer 
      * was found. If not, it returns -1
      */
-    int findKmer(Kmer kmer, int initialPos, int finalPos);
+    int findKmer(const Kmer kmer, const int initialPos, const int finalPos);
     
     /**
      * @brief Searchs the given kmer in the list of kmers in this
@@ -125,7 +125,7 @@ public:
      * @return If found, it returns the position where the kmer 
      * was found. If not, it returns -1
      */
-    int findKmer(Kmer kmer);
+    int findKmer(const Kmer kmer);
 
     /**
      * @brief Obtains a string with the following content:
@@ -137,7 +137,7 @@ public:
      * @return A string with the number of kmers and the list of pairs of
      * kmer-frequency in the object
      */
-    std::string toString();
+    std::string toString() const;
 
     /**
      * @brief Sorts the vector of KmerFreq in decreasing order of frequency.
@@ -157,7 +157,7 @@ public:
      * if the given file cannot be opened or if an error occurs while writing
      * to the file
      */
-    void save(char fileName[]); 
+    void save(const char fileName[]); 
 
     /**
      * @brief Loads into this object the Profile object stored in the given 
@@ -176,7 +176,7 @@ public:
      * @throw throw std::invalid_argument Throws a std::invalid_argument if
      * an invalid magic string is found in the given file
      */
-    void load(char fileName[]);
+    void load(const char fileName[]);
      
     /**
      * @brief Appends a copy of the given KmerFreq to this Profile object.
@@ -185,14 +185,14 @@ public:
      * given KmerFreq object is appended to the end of the list of
      * KmerFreq objects in this Profile.
      * Modifier method
-     * @thow std::out_of_range Throws a std::out_of_range exception in case
+     * @throw std::out_of_range Throws a std::out_of_range exception in case
      * that a new element must be appended to the end of the array and the
      * number of elements in the array of KmerFreq is equals to the capacity
      * of that array. In that case, the array is full, and no more elements
      * can be appended to the array.
      * @param kmerFreq The KmerFreq to append to this object. Input paramether
      */
-    void append(KmerFreq kmerFreq);
+    void append(const KmerFreq kmerFreq);
     
     /**
      * @brief Normalizes the Kmers of the vector of KmerFreq in this object. 
@@ -228,7 +228,7 @@ _G 5
      * @param validNucleotides a string with the list of characters (nucleotides) 
      * that should be considered as valid. Input parameter
      */
-    void normalize(std::string validNucleotides);
+    void normalize(const std::string validNucleotides);
 
     /**
      * @brief Deletes the KmerFreq object from the vector of KmerFreq in this
@@ -239,7 +239,7 @@ _G 5
      * @throw std::out_of_range Throws an std::out_of_range exception if @p pos 
      * is not in the range from 0 to size()-1 (both included).
      */
-    void deletePos(int pos);
+    void deletePos(const int pos);
 
     /**
      * @brief Deletes the KmerFreq objects from the vector of KmerFreq in this
@@ -259,7 +259,7 @@ _G 5
      * deleted. This parameter has zero as default value.
      * Input parameter
      */
-    void zip(bool deleteMissing=false, int lowerBound = 0);
+    void zip(const bool deleteMissing=false, const int lowerBound = 0);
     
     /**
      * @brief Appends to this Profile object, the list of pairs  
@@ -270,7 +270,7 @@ _G 5
      * Modifier method
      * @param profile A Profile object. Input parameter
      */
-    void join(Profile profile);
+    void join(const Profile profile);
     
 private:
     static const int DIM_VECTOR_KMER_FREQ = 2000; ///< The capacity of the array _vectorKmerFreq
