@@ -88,12 +88,14 @@ int main(int argc, char* argv[]) {
     // Load and normalize the first input Profile file
 
     // Use a loop to load, normalize and obtain the join with the rest of Profiles
-
+    for(int i = 0; i < argc; i++)
+    {
     // Zip the resulting Profile
 
     // Sort the zipped Profile
 
     // Save the final Profile to the output file
-
+    }
+    Profile profile = Profile(5);
     return 0;
 }

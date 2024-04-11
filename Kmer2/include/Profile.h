@@ -46,7 +46,7 @@ public:
      * @param size The size for the vector of kmers in this Profile. 
      * Input parameter
      */
-    Profile(int size);
+    Profile(const int size);
 
 
     /**
@@ -61,7 +61,7 @@ public:
      * Modifier method
      * @param id The new identifier. Input parameter
      */
-    void setProfileId(std::string id);
+    void setProfileId(const std::string id);
 
 
     /**
