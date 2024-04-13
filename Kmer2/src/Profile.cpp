@@ -201,25 +201,28 @@ void Profile::join(const Profile profile)
     }
 }
 
-int Profile::findKmer(const Kmer kmer, int initialPos, int finalPos)
+int Profile::findKmer(const Kmer kmer, int initialPos, int finalPos) 
 {
-	int returner = -1;
-	for(int initialPos; i<=finalPos && returner<0 ; i++){
-		if (kmer == _vectorKmerFreq[i]){
-			returner == i;
-		}
-	}
-	return returner;
-
-int Profile::findKmer(const Kmer kmer)
+    int returner = -1;
+    
+    // usa FindKmerInArray... en ArrayKmerFrequFunctions
+    for(int i = initialPos; i<=finalPos && returner<0 ; i++){
+            if (kmer == _vectorKmerFreq[i]){
+                    returner == i;
+            }
+    }
+    return returner;
+}
+int Profile::findKmer(const Kmer kmer) 
 {
-	int returner = -1;
-	for(int i=0; i<profile.getSize() && returner<0 ; i++){
-		if (kmer == _vectorKmerFreq[i]){
-			returner == i;
-		}
-	}
-	return returner;
+    //usa FindKmerInArray... en ArrayKmerFrequFunctions
+    int returner = -1;
+    for(int i=0; i< getSize() && returner<0 ; i++){
+            if (kmer == _vectorKmerFreq[i]){ 
+                    returner = i;
+            }
+    }
+    return returner;
 }
 
 std::string Profile::toString() const
@@ -227,6 +230,12 @@ std::string Profile::toString() const
     return "";
 }
 
-void normalize (std::string validNucleotides);
+void normalize (std::string validNucleotides)
+{
+    
+}
 
-void zip (bool deleteMissing=false , int lowerBound = 0);
+void zip (bool deleteMissing=false , int lowerBound = 0)
+{
+    
+}
