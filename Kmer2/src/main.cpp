@@ -5,12 +5,10 @@
 
 /**
  * @file main.cpp
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
  *
- * Created on 31 October de 2023, 14:30
+ * Created on 14 April 2024, 13:58
  */
 
 #include <iostream>
@@ -60,7 +58,7 @@ void showEnglishHelp(ostream& outputStream) {
  * 
  * Running example:
  * > kmer2 /tmp/outputFile.prf ../Genomes/5pairsRNA.prf ../Genomes/6pairsRNA.prf
- * 
+ * ./dist/debug/MinGw-Windows/kmer2 tmp/outputFile.prf ../Genomes/5pairsRNA.prf ../Genomes/6pairsRNA.prf
  * > cat /tmp/outputFile.prf
 MP-KMER-T-1.0
 red bug
@@ -98,14 +96,12 @@ int main(int argc, char* argv[]) {
         anAuxiliarProfile.normalize(VALID_NUCLEOTIDES);
         
         aProfileToLoad.join(anAuxiliarProfile);
-        std::cout<<aProfileToLoad.toString()<<std::endl;
     }
     // Zip the resulting Profile
     aProfileToLoad.zip();
     // Sort the zipped Profile
     aProfileToLoad.sort();
     // Save the final Profile to the output file
-    std::cout<<argv[1]<<std::endl;
     aProfileToLoad.save(argv[1]);
     return 0;
 }

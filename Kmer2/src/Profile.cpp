@@ -5,12 +5,10 @@
 
 /** 
  * @file Profile.cpp
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 29 January 2023, 11:00
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+ * Created on 14 April 2024, 13:58
  */
 
 
@@ -105,7 +103,7 @@ void Profile::load(const char fileName[])
     
     //Comprobamos que es un fichero de Profile
     string isAProfileFile = "";
-    inputFile>>isAProfileFile;
+    std::getline(inputFile,isAProfileFile);
     if(isAProfileFile != MAGIC_STRING_T)
     {
         std::cout << "This is not a Profile file"<<std::endl;
@@ -113,8 +111,7 @@ void Profile::load(const char fileName[])
     }
     
     //Obtenemos el id del Profile
-    inputFile>>_profileId;
-    
+    std::getline(inputFile,_profileId);
     //Obtenemos el numero de kmerFreq en el fichero.
     inputFile>>_size;
     
@@ -131,13 +128,11 @@ void Profile::load(const char fileName[])
     std::string aKmerToAdd;
     int aFreqToAdd;
     int i = 0;
-    std::cout<<toString()<<std::endl;
     //Leemos y guardamos los kmerFreq
     while (inputFile >> aKmerToAdd && inputFile >> aFreqToAdd && i<_size)
     {
         _vectorKmerFreq[i].setKmer(Kmer(aKmerToAdd));
         _vectorKmerFreq[i].setFrequency(aFreqToAdd);
-        std::cout<<toString()<<std::endl;
         i++;
     }
 }
@@ -154,19 +149,21 @@ void Profile::save(const char fileName[])
     }
     
     //Indicamos que es un fichero de Profile
-    outputFile<<MAGIC_STRING_T;
+    outputFile<<MAGIC_STRING_T<<std::endl;
   
     //Escribimos el id del Profile
-    outputFile<<_profileId;
+    outputFile<<_profileId<<std::endl;
     
     //Escribimos el numero de kmerFreq en el fichero.
-    outputFile<<_size;
+    outputFile<<_size<<std::endl;
     
     //Escribimos los kmerFreq
     for(int i = 0; i < getSize(); i++)
     {
-        outputFile<<_vectorKmerFreq[i].toString();
+        outputFile<<_vectorKmerFreq[i].toString()<<std::endl;
     }
+    
+    outputFile.close();
 }
 
 void Profile::append(const KmerFreq kmerFreq)
@@ -219,8 +216,7 @@ std::string Profile::toString() const
     profileToString += "\n";
     profileToString += _profileId;
     profileToString += "\n";
-    profileToString += _size;
-    
+    profileToString += to_string(_size);
     for(int i = 0; i<_size; i++)
     {
         profileToString += "\n";
