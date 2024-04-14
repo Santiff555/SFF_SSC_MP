@@ -89,24 +89,23 @@ void Profile::sort()
     }
 }
 
-void Profile::save(const char fileName[])
+void Profile::load(const char fileName[])
 {
     std::ifstream inputFile(fileName);    
     
     //Comprobamos si hay algun fallo abriendo el fichero
     if (!inputFile.is_open())
     {
-        std::cout << "Error trying to open the file: "<<fileName<<std::endl;
+        std::cout << "Error trying to open the input file: "<<fileName<<std::endl;
         exit(EXIT_FAILURE);
     }
     
     //Vaciamos el Profile
-    *this = Profile(_size);
+    *this = Profile();
     
     //Comprobamos que es un fichero de Profile
     string isAProfileFile = "";
     inputFile>>isAProfileFile;
-    
     if(isAProfileFile != MAGIC_STRING_T)
     {
         std::cout << "This is not a Profile file"<<std::endl;
@@ -132,17 +131,18 @@ void Profile::save(const char fileName[])
     std::string aKmerToAdd;
     int aFreqToAdd;
     int i = 0;
-    
+    std::cout<<toString()<<std::endl;
     //Leemos y guardamos los kmerFreq
     while (inputFile >> aKmerToAdd && inputFile >> aFreqToAdd && i<_size)
     {
         _vectorKmerFreq[i].setKmer(Kmer(aKmerToAdd));
         _vectorKmerFreq[i].setFrequency(aFreqToAdd);
+        std::cout<<toString()<<std::endl;
         i++;
     }
 }
 
-void Profile::load(const char fileName[])
+void Profile::save(const char fileName[])
 {
     std::ofstream outputFile(fileName);    
     
@@ -203,28 +203,38 @@ void Profile::join(const Profile profile)
 
 int Profile::findKmer(const Kmer kmer, int initialPos, int finalPos) 
 {    
-    // usa FindKmerInArray... en ArrayKmerFrequFunctions
     int returner = FindKmerInArrayKmerFreq(_vectorKmerFreq, kmer, initialPos, finalPos);
     return returner;
 }
 int Profile::findKmer(const Kmer kmer) 
 {
-    //usa FindKmerInArray... en ArrayKmerFrequFunctions
     int returner = FindKmerInArrayKmerFreq(_vectorKmerFreq, kmer, 0, getSize());
     return returner;
 }
 
 std::string Profile::toString() const
 {
-    return "";
+    string profileToString = "";
+    profileToString += MAGIC_STRING_T;
+    profileToString += "\n";
+    profileToString += _profileId;
+    profileToString += "\n";
+    profileToString += _size;
+    
+    for(int i = 0; i<_size; i++)
+    {
+        profileToString += "\n";
+        profileToString += _vectorKmerFreq[i].toString();
+    }
+    return profileToString;
 }
 
-void normalize (std::string validNucleotides)
+void Profile::normalize(std::string validNucleotides)
 {
-    void NormalizeArrayKmerFreq(_vectorKmerFreq, getSize, validNucleotides)
+    NormalizeArrayKmerFreq(_vectorKmerFreq, _size, validNucleotides);
 }
 
-void zip (bool deleteMissing=false , int lowerBound = 0)
+void Profile::zip(bool deleteMissing, const int lowerBound)
 {
-    ZipArrayKmerFreq(_vectorKmerFreq, getSize, deleteMissing, lowerBound)
+    ZipArrayKmerFreq(_vectorKmerFreq, _size, deleteMissing, lowerBound);
 }

@@ -79,22 +79,33 @@ int main(int argc, char* argv[]) {
     // unknown nucleotides 
     const string VALID_NUCLEOTIDES = "ACGT";
     
-
     // Check if the number of running arguments is correct, otherwise call to
     // showEnglishHelp(cerr) and end main()
-    
-    showEnglishHelp(cerr);
-
-    // Load and normalize the first input Profile file
-
-    // Use a loop to load, normalize and obtain the join with the rest of Profiles
-    for(int i = 0; i < argc; i++)
+    if(argc < 4)
     {
-    // Zip the resulting Profile
-
-    // Sort the zipped Profile
-
-    // Save the final Profile to the output file
+        showEnglishHelp(cerr);
+        return -1;
     }
+    // Load and normalize the first input Profile file
+    Profile aProfileToLoad = Profile();
+    aProfileToLoad.load(argv[2]);
+    aProfileToLoad.normalize(VALID_NUCLEOTIDES);
+    // Use a loop to load, normalize and obtain the join with the rest of Profiles
+    for(int i = 3; i < argc; i++)
+    {
+        Profile anAuxiliarProfile = Profile();
+        anAuxiliarProfile.load(argv[i]);
+        anAuxiliarProfile.normalize(VALID_NUCLEOTIDES);
+        
+        aProfileToLoad.join(anAuxiliarProfile);
+        std::cout<<aProfileToLoad.toString()<<std::endl;
+    }
+    // Zip the resulting Profile
+    aProfileToLoad.zip();
+    // Sort the zipped Profile
+    aProfileToLoad.sort();
+    // Save the final Profile to the output file
+    std::cout<<argv[1]<<std::endl;
+    aProfileToLoad.save(argv[1]);
     return 0;
 }
