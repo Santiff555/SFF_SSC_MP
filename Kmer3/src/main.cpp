@@ -13,7 +13,7 @@
 
 #include <iostream>
 
-#include "Profile.h"
+#include "../include/Profile.h"
 
 using namespace std;
 
@@ -66,6 +66,7 @@ Identifier of the nearest profile: mus musculus
  * 
  * Running example:
  * > kmer3 -t max ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf 
+ * ./dist/debug/MinGw-Windows/kmer3 ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf
 Distance to ../Genomes/worm1.prf: 0.330618
 Distance to ../Genomes/mouse1.prf: 0.224901
 Farthest profile file: ../Genomes/worm1.prf
@@ -74,15 +75,98 @@ Identifier of the farthest profile: worm
 int main(int argc, char* argv[]) {
     
     // Process the main() arguments
+    if(argc < 4)
+    {
+        showEnglishHelp(cerr);
+        return -1;
+    }
     
+    /*C:\Users\santy\Desktop\MP\Practicas\SFF_SSC_MP\Kmer3\dist\debug\MinGw-Windows\kmer3.exe: 0
+     *-t: 1                                                                                     
+     *min: 2
+     *../Genomes/human1.prf: 3
+     *../Genomes/worm1.prf: 4
+     *../Genomes/mouse1.prf: 5
+     *...
+     */
+    
+    for(int i = 0; i<argc;i++)
+    {
+        cout<<i<<": "<<argv[i]<<endl;
+    }
+    int numberOfProfiles = argc - 1;
+    int startOfProfilesFiles = 1;
+    
+    const string tParameter = "-t";
+    const string minParameter = "min", maxParameter = "max";
+    string searchParameter = minParameter;
+    if(argv[1] == tParameter)
+    {
+        numberOfProfiles -= 2;
+        startOfProfilesFiles = 3;
+        if(argv[2] == maxParameter)
+        {
+            searchParameter = maxParameter;
+        }
+    }
     // Allocate a dynamic array of Profiles
+    Profile* profiles = new Profile[numberOfProfiles];
     
     // Load the input Profiles
+    for(int i = 0; i < numberOfProfiles;i++)
+    {
+        profiles[i] = Profile();
+        profiles[i].load(argv[i+startOfProfilesFiles]);
+    }
     
     // Calculate and print the distance from the first Profile to the rest
+    double distance_i = profiles[0].getDistance(profiles[1]);
+    cout<<"Distance to "<<argv[startOfProfilesFiles+1]<<": "<<distance_i<<endl;
     
-    // Print name of the file and identifier that takes min|max distance to the first one
+    double maxmin_distance_value = distance_i;
+    int maxmin_distance_index = 1;
+    
+    if(numberOfProfiles > 2)
+    {
+        for(int i = 2; i < numberOfProfiles; ++i)
+        {
+            distance_i = profiles[0].getDistance(profiles[i]);
+            cout<<"Distance to "<<argv[startOfProfilesFiles+i]<<": "<<distance_i<<endl;
 
-    // Deallocate the dynamic array of Profiles
+            if(searchParameter == minParameter)
+            {
+                if(maxmin_distance_value > distance_i)
+                {
+                    maxmin_distance_value = distance_i;
+                    maxmin_distance_index = i;
+                }
+            }
+            else if(searchParameter == maxParameter)
+            {
+               if(maxmin_distance_value < distance_i)
+                {
+                    maxmin_distance_value = distance_i;
+                    maxmin_distance_index = i;
+                }
+            }
+        }
+    }
+    // Print name of the file and identifier that takes min|max distance to the first one
+    if(searchParameter == maxParameter)
+    {
+        cout<<"Farthest profile file: ";
+    }
+    
+    if(searchParameter == minParameter)
+    {
+        cout<<"Nearest profile file: ";
+    }
+    cout<<argv[startOfProfilesFiles + maxmin_distance_index]<<endl;
+    cout<<"Identifier of the farthest profile: "<<profiles[maxmin_distance_index].getProfileId()<<endl;
+    
+    // Deallocate the dynamic array of Profiles 
+    delete[] profiles;
+    
+    //End of main
     return 0;
 }

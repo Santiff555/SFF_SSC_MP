@@ -58,7 +58,7 @@ void showEnglishHelp(ostream& outputStream) {
  * 
  * Running example:
  * > kmer2 /tmp/outputFile.prf ../Genomes/5pairsRNA.prf ../Genomes/6pairsRNA.prf
- * ./dist/debug/MinGw-Windows/kmer2 tmp/outputFile.prf ../Genomes/5pairsRNA.prf ../Genomes/6pairsRNA.prf
+ * ./dist/debug/MinGw-Windows/kmer2 tmp/outputFile.prf ../Genomes/5pairsRNA.prf ../Genomes/6pairsRNA.prf 
  * > cat /tmp/outputFile.prf
 MP-KMER-T-1.0
 red bug

@@ -128,11 +128,8 @@ public:
      * @return The distance between this Profile object and the given 
      * argument @p otherProfile.
      */
-    double getDistance(/*this(P1)*/const Profile otherProfile /*P2*/) const;
-    //for(int i = 0; i<getSize();i++)
-    //rankP1_kmeri = i;
-    //rankP2_kmeri = otherProfile.find(_vectorKmerFreq[i]);
-    
+    double getDistance(Profile otherProfile) ;
+
     /**
      * @brief Searchs the given kmer in the list of kmers in this
      * Profile, but only in positions from initialPos to finalPos 

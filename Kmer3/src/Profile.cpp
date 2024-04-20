@@ -14,6 +14,7 @@
 
 #include "../include/Profile.h"
 #include "../include/ArrayKmerFreqFunctions.h"
+#include <cmath>
 
 using namespace std;
 
@@ -233,4 +234,31 @@ void Profile::normalize(std::string validNucleotides)
 void Profile::zip(bool deleteMissing, const int lowerBound)
 {
     ZipArrayKmerFreq(_vectorKmerFreq, _size, deleteMissing, lowerBound);
+}
+
+double Profile::getDistance(Profile otherProfile)
+{
+    if(getSize() == 0 || otherProfile.getSize() == 0)
+    {
+         throw std::invalid_argument ("Profiles can't be void");
+    }
+    double distance = 0;
+    for (int i=0; i<getSize(); i++)
+    {
+        int rank_other = otherProfile.findKmer(_vectorKmerFreq[i].getKmer());
+        if (rank_other == -1)
+        {
+            rank_other = otherProfile.getSize();
+        }
+        
+        distance += abs(i - rank_other);
+    }
+    distance /= (getSize() * otherProfile.getSize());
+    std::cout<<distance<<" ";
+    return distance;
+}
+
+std::string Profile::getProfileId()
+{
+    return _profileId;
 }
