@@ -23,23 +23,28 @@ const string Profile::MAGIC_STRING_T = "MP-KMER-T-1.0";
 Profile::Profile()
 {
     setProfileId("unknow");
-    _size = 0;
+    allocate(INITIAL_CAPACITY);
 }
 
-Profile:: Profile(const int size)
+Profile::Profile(const int size)
 {
-    if(size < 0 || size > getCapacity())
+    if(size < 0)
     {
         throw std::out_of_range("Input must be at least 0 and less than " + std::to_string(getCapacity()) );
     }
     
     setProfileId("unknow");
-    _size = size;
-    
-    for(int i = 0; i < getSize(); i++)
+    allocate(size);
+   
+    for(int i = 0; i < getCapacity(); i++)
     {
-        _vectorKmerFreq[i] = KmerFreq();
+        append(KmerFreq());
     }
+}
+
+Profile::~Profile()
+{
+    deallocate();
 }
 
 void Profile::setProfileId(const std::string id)
@@ -67,75 +72,70 @@ KmerFreq& Profile::at(const int index)
 
 int Profile::getSize() const
 {
-    return _size;
+    return _util;
 }
 
 int Profile::getCapacity() const
 {
-    return DIM_VECTOR_KMER_FREQ;
+    return _capacidad;
 }
 
 void Profile::sort()
 {
     SortArrayKmerFreq(_vectorKmerFreq, getCapacity());
     
-    for (int i = 0; i < _size - 1; i++){
-        for (int j = i+1; j < _size ; j++) { 
+    for (int i = 0; i < _util - 1; i++){
+        for (int j = i+1; j < _util ; j++) { 
             if(_vectorKmerFreq[i].getKmer().toString() < _vectorKmerFreq[j].getKmer().toString()){ //tal vez esto falle, comprobarlo
-                  SwapElementsArrayKmerFreq(_vectorKmerFreq,_size,i,j);
+                  SwapElementsArrayKmerFreq(_vectorKmerFreq,_util,i,j);
             }
         }
     }
 }
 
-void Profile::load(const char fileName[])
-{
-    std::ifstream inputFile(fileName);    
-    
-    //Comprobamos si hay algun fallo abriendo el fichero
-    if (!inputFile.is_open())
-    {
-        std::cout << "Error trying to open the input file: "<<fileName<<std::endl;
+void Profile::load(const char fileName[]) {
+    std::ifstream inputFile(fileName);
+
+    // Comprobamos si hay algun fallo abriendo el fichero
+    if (!inputFile.is_open()) {
+        std::cerr << "Error trying to open the input file: " << fileName << std::endl;
         exit(EXIT_FAILURE);
     }
-    
-    //Vaciamos el Profile
-    *this = Profile();
-    
-    //Comprobamos que es un fichero de Profile
+
+    // Comprobamos que es un fichero de Profile
     string isAProfileFile = "";
-    std::getline(inputFile,isAProfileFile);
-    if(isAProfileFile != MAGIC_STRING_T)
-    {
-        std::cout << "This is not a Profile file"<<std::endl;
+    std::getline(inputFile, isAProfileFile);
+    if (isAProfileFile != MAGIC_STRING_T) {
+        std::cerr << "This is not a Profile file" << std::endl;
         exit(EXIT_FAILURE);
     }
+
+    // Obtenemos el id del Profile
+    std::getline(inputFile, _profileId);
+
+    // Obtenemos el numero de kmerFreq en el fichero.
+    int inputFileKmerFreqSize = 0;
+    inputFile >> inputFileKmerFreqSize;
     
-    //Obtenemos el id del Profile
-    std::getline(inputFile,_profileId);
-    //Obtenemos el numero de kmerFreq en el fichero.
-    inputFile>>_size;
-    
-    if(_size > getCapacity())
-    {
-        _size = getCapacity();
-    }
-    else if(_size < 0)
-    {
-        _size = 0;
-    }
-    
-    //Creamos variables temporales
+
+    // Vaciamos el Profile
+    deallocate();
+    allocate(inputFileKmerFreqSize);
+
+    // Creamos variables temporales
     std::string aKmerToAdd;
+    KmerFreq aKmerFreqToAdd;
     int aFreqToAdd;
     int i = 0;
-    //Leemos y guardamos los kmerFreq
-    while (inputFile >> aKmerToAdd && inputFile >> aFreqToAdd && i<_size)
-    {
-        _vectorKmerFreq[i].setKmer(Kmer(aKmerToAdd));
-        _vectorKmerFreq[i].setFrequency(aFreqToAdd);
+    // Leemos y guardamos los kmerFreq
+    while (inputFile >> aKmerToAdd >> aFreqToAdd && i < inputFileKmerFreqSize) {
+        aKmerFreqToAdd.setKmer(aKmerToAdd);
+        aKmerFreqToAdd.setFrequency(aFreqToAdd);
+
+        append(aKmerFreqToAdd);
         i++;
     }
+    _util = i;
 }
 
 void Profile::save(const char fileName[])
@@ -156,7 +156,7 @@ void Profile::save(const char fileName[])
     outputFile<<_profileId<<std::endl;
     
     //Escribimos el numero de kmerFreq en el fichero.
-    outputFile<<_size<<std::endl;
+    outputFile<<_util<<std::endl;
     
     //Escribimos los kmerFreq
     for(int i = 0; i < getSize(); i++)
@@ -169,18 +169,17 @@ void Profile::save(const char fileName[])
 
 void Profile::append(const KmerFreq kmerFreq)
 {
-    if(getSize() + 1 >= getCapacity())
-    {
-         throw std::out_of_range ("Index out of range");
-    }
-    
     int kmerFreqPos = findKmer(kmerFreq.getKmer());
     
-    if(kmerFreqPos == -1){
+    if(kmerFreqPos == -1){ //Si no existe en el vector, lo agrega
+        if(getSize() >= getCapacity())
+        {
+             reallocate(getCapacity() > 0 ? getCapacity() + BLOCK_SIZE : INITIAL_CAPACITY);
+        }
         _vectorKmerFreq[getSize()] = kmerFreq;
-        _size++;
+        _util++;
     }
-    else
+    else //Si existe le suma 1 a la frecuencia
     {
         _vectorKmerFreq[kmerFreqPos].setFrequency(_vectorKmerFreq[kmerFreqPos].getFrequency() + 1);   
     }
@@ -188,7 +187,11 @@ void Profile::append(const KmerFreq kmerFreq)
 
 void Profile::deletePos(const int pos)
 {
-    DeletePosArrayKmerFreq(_vectorKmerFreq, _size, pos);
+    if (pos < 0 || pos >= _util) {
+        throw std::out_of_range("Position out of range");
+    }
+    DeletePosArrayKmerFreq(_vectorKmerFreq, _util, pos);
+    _util--;
 }
 
 void Profile::join(const Profile profile)
@@ -199,15 +202,81 @@ void Profile::join(const Profile profile)
     }
 }
 
+void Profile::copy(const Profile& otherProfile)
+{
+    deallocate();
+    _util = otherProfile._util;
+    _capacidad = otherProfile._capacidad;
+    _profileId = otherProfile._profileId;
+    
+    this->_vectorKmerFreq = new KmerFreq[_capacidad];
+    
+    for(int i = 0; i<_util;i++)
+    {
+        this->_vectorKmerFreq[i] = otherProfile._vectorKmerFreq[i];
+    }
+}
+
+void Profile::allocate(int new_capacity)
+{
+    _vectorKmerFreq = new KmerFreq[new_capacity];
+    _capacidad = new_capacity;
+    _util = 0;
+}
+
+void Profile::deallocate()
+{
+     if (_vectorKmerFreq != nullptr) {
+        delete[] _vectorKmerFreq;
+        _vectorKmerFreq = nullptr;
+        _util = 0;
+        _capacidad = 0;
+    }
+}
+void Profile::reallocate(int new_capacity)
+{
+    if (new_capacity <= _capacidad)
+    {
+        std::cerr << "New capacity must be greater than current capacity." << std::endl;
+        return;
+    }
+    
+    KmerFreq* new_vectorKmerFreq = new KmerFreq[new_capacity];
+    if (_vectorKmerFreq != nullptr) {
+        for(int i = 0; i<_util;i++)
+        {
+            new_vectorKmerFreq[i] = _vectorKmerFreq[i];
+        }
+        delete[] _vectorKmerFreq;
+    }
+    _vectorKmerFreq = new_vectorKmerFreq;
+    _capacidad = new_capacity;
+}
+    
+Profile& Profile::operator=(const Profile& otherProfile)
+{
+    if (this != &otherProfile) {
+        deallocate(); // Evitar fugas de memoria al liberar la memoria existente
+        copy(otherProfile);
+    }
+    
+    return *this;
+}
+
+Profile::Profile(const Profile& otherProfile)
+{
+    _vectorKmerFreq = nullptr;
+    copy(otherProfile);
+}
+
 int Profile::findKmer(const Kmer kmer, int initialPos, int finalPos) 
 {    
-    int returner = FindKmerInArrayKmerFreq(_vectorKmerFreq, kmer, initialPos, finalPos);
-    return returner;
+    return FindKmerInArrayKmerFreq(_vectorKmerFreq, kmer, initialPos, finalPos);
+    
 }
 int Profile::findKmer(const Kmer kmer) 
 {
-    int returner = FindKmerInArrayKmerFreq(_vectorKmerFreq, kmer, 0, getSize());
-    return returner;
+    return findKmer(kmer, 0, getSize() - 1);
 }
 
 std::string Profile::toString() const
@@ -217,8 +286,8 @@ std::string Profile::toString() const
     profileToString += "\n";
     profileToString += _profileId;
     profileToString += "\n";
-    profileToString += to_string(_size);
-    for(int i = 0; i<_size; i++)
+    profileToString += to_string(_util);
+    for(int i = 0; i<_util; i++)
     {
         profileToString += "\n";
         profileToString += _vectorKmerFreq[i].toString();
@@ -228,12 +297,12 @@ std::string Profile::toString() const
 
 void Profile::normalize(std::string validNucleotides)
 {
-    NormalizeArrayKmerFreq(_vectorKmerFreq, _size, validNucleotides);
+    NormalizeArrayKmerFreq(_vectorKmerFreq, _util, validNucleotides);
 }
 
 void Profile::zip(bool deleteMissing, const int lowerBound)
 {
-    ZipArrayKmerFreq(_vectorKmerFreq, _size, deleteMissing, lowerBound);
+    ZipArrayKmerFreq(_vectorKmerFreq, _util, deleteMissing, lowerBound);
 }
 
 double Profile::getDistance(Profile otherProfile)
@@ -242,19 +311,18 @@ double Profile::getDistance(Profile otherProfile)
     {
          throw std::invalid_argument ("Profiles can't be void");
     }
-    double distance = 0;
+    double distance = 0.0;
     for (int i=0; i<getSize(); i++)
     {
         int rank_other = otherProfile.findKmer(_vectorKmerFreq[i].getKmer());
-        if (rank_other == -1)
-        {
+
+        if (rank_other == -1) {
             rank_other = otherProfile.getSize();
         }
-        
-        distance += abs(i - rank_other);
+
+        distance += std::abs(i - rank_other);
     }
     distance /= (getSize() * otherProfile.getSize());
-    std::cout<<distance<<" ";
     return distance;
 }
 

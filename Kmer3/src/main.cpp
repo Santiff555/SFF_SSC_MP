@@ -66,7 +66,7 @@ Identifier of the nearest profile: mus musculus
  * 
  * Running example:
  * > kmer3 -t max ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf 
- * ./dist/debug/MinGw-Windows/kmer3 ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf
+ * ./dist/debug/MinGw-Windows/kmer4 ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf
 Distance to ../Genomes/worm1.prf: 0.330618
 Distance to ../Genomes/mouse1.prf: 0.224901
 Farthest profile file: ../Genomes/worm1.prf
@@ -89,11 +89,7 @@ int main(int argc, char* argv[]) {
      *../Genomes/mouse1.prf: 5
      *...
      */
-    
-    for(int i = 0; i<argc;i++)
-    {
-        cout<<i<<": "<<argv[i]<<endl;
-    }
+   
     int numberOfProfiles = argc - 1;
     int startOfProfilesFiles = 1;
     
@@ -115,7 +111,6 @@ int main(int argc, char* argv[]) {
     // Load the input Profiles
     for(int i = 0; i < numberOfProfiles;i++)
     {
-        profiles[i] = Profile();
         profiles[i].load(argv[i+startOfProfilesFiles]);
     }
     

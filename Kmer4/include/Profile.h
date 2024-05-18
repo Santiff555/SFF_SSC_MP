@@ -16,6 +16,7 @@
 
 
 #include <iostream>
+#include <cstring>
 #include "../include/KmerFreq.h"
 
 /**
@@ -32,6 +33,8 @@ public:
      * identifier, and an empty vector of pairs Kmer-frequency. 
      */
     Profile();
+    
+    ~Profile();
 
    
     /**
@@ -45,8 +48,11 @@ public:
      * Input parameter
      */
     Profile(const int size);
-
-
+    
+    Profile& operator=(const Profile& otherProfile);
+    
+    Profile(const Profile& otherProfile);
+    
     /**
      * @brief Returns the identifier of this profile object.
      * Query method
@@ -303,12 +309,19 @@ _G 5
     void join(const Profile profile);
     
 private:
-    static const int DIM_VECTOR_KMER_FREQ = 2000; ///< The capacity of the array _vectorKmerFreq
+    void copy(const Profile& otherProfile);
+    void allocate(int new_capacity);
+    void deallocate();
+    void reallocate(int new_capacity);
+        
+private:
+    static const int INITIAL_CAPACITY = 10, BLOCK_SIZE = 10; ///< The capacity of the array _vectorKmerFreq
     static const std::string MAGIC_STRING_T; ///< A const string with the magic string for text files
 
     std::string _profileId; ///< profile identifier
-    KmerFreq _vectorKmerFreq[DIM_VECTOR_KMER_FREQ]; ///< array of KmerFreq
-    int _size; ///< Number of used elements in _vectorKmerFreq
+    KmerFreq *_vectorKmerFreq; ///< array of KmerFreq
+    int _util; ///< Number of used elements in _vectorKmerFreq
+    int _capacidad;
 };
 
 #endif /* PROFILE_H */

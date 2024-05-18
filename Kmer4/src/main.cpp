@@ -24,7 +24,7 @@ using namespace std;
  * cout, cerr, etc) 
  */
 void showEnglishHelp(ostream& outputStream) {
-    outputStream << "ERROR in Kmer3 parameters" << endl;
+    outputStream << "ERROR in Kmer4 parameters" << endl;
     outputStream << "Run with the following parameters:" << endl;
     outputStream << "kmer3 [-t min|max] <file1.prf> <file2.prf> [ ... <filen.prf>]" << endl;
     outputStream << endl;
@@ -66,7 +66,7 @@ Identifier of the nearest profile: mus musculus
  * 
  * Running example:
  * > kmer3 -t max ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf 
- * ./dist/debug/MinGw-Windows/kmer3 ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf
+ * ./dist/debug/MinGw-Windows/kmer4 ../Genomes/human1.prf ../Genomes/worm1.prf ../Genomes/mouse1.prf
 Distance to ../Genomes/worm1.prf: 0.330618
 Distance to ../Genomes/mouse1.prf: 0.224901
 Farthest profile file: ../Genomes/worm1.prf
@@ -89,11 +89,7 @@ int main(int argc, char* argv[]) {
      *../Genomes/mouse1.prf: 5
      *...
      */
-    
-    for(int i = 0; i<argc;i++)
-    {
-        cout<<i<<": "<<argv[i]<<endl;
-    }
+   
     int numberOfProfiles = argc - 1;
     int startOfProfilesFiles = 1;
     
@@ -128,7 +124,7 @@ int main(int argc, char* argv[]) {
     
     if(numberOfProfiles > 2)
     {
-        for(int i = 2; i < numberOfProfiles; ++i)
+        for(int i = 2; i < numberOfProfiles; i++)
         {
             distance_i = profiles[0].getDistance(profiles[i]);
             cout<<"Distance to "<<argv[startOfProfilesFiles+i]<<": "<<distance_i<<endl;
