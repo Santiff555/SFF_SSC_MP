@@ -103,7 +103,10 @@ private:
  * @param kmerFreq the KmerFreq object. Input parameter
  * @return @p os A reference to the output stream
  */
-std::ostream operator<<(std::ostream os, KmerFreq kmerFreq);
+std::ostream operator<<(std::ostream os, KmerFreq kmerFreq){
+    os << "La frecuencia es: " << kmerFreq.getFrequency();
+    return os;
+}
 
 /**
  * @brief Overloading of the stream extraction operator for KmerFreq class
@@ -111,7 +114,11 @@ std::ostream operator<<(std::ostream os, KmerFreq kmerFreq);
  * @param kmerFreq the KmerFreq object. Input parameter
  * @return @p is A reference to the input stream
  */
-std::istream operator>>(std::istream is, KmerFreq kmerFreq);
+std::istream operator>>(std::istream is, KmerFreq kmerFreq){
+    int freq = kmerFreq.getFrequency();
+    is >> kmerFreq.setFrequency(freq);
+    return is;
+}
 
 /**
  * @brief Overloading of the relational operator > for KmerFreq class
@@ -121,7 +128,23 @@ std::istream operator>>(std::istream is, KmerFreq kmerFreq);
  * @p kmerFreq2 or if both frequencies are equals and the text of 
  * @p kmerFreq1 is minor than the text of @p kmerFreq2; false otherwise
  */
-bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool mayor;
+    if (kmerFreq1.getFrequency()>kmerFreq2.getFrequency()){
+	mayor = true;
+    }
+    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
+	mayor = false;
+    }
+    if (kmerFreq1.getFrequency()=kmerFreq2.getFrequency()){
+	if (kmerFreq1.length()<kmerFreq2.length()){
+	    mayor = true;
+	}else{
+	    mayot = false;
+	}
+    }
+    return mayor;
+}
 
 /**
  * @brief Overloading of the operator < for KmerFreq class
@@ -129,7 +152,15 @@ bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 < kmerFreq2; false otherwise
  */
-bool operator<(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator<(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool menor;
+    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
+	menor = true;
+    }else{
+	menor = false;
+    }
+    return menor;
+}
 
 /**
  * @brief Overloading of the operator == for Kmer class
@@ -138,7 +169,15 @@ bool operator<(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
  * @return true if the two kmers contains the same pair Kmer-frequency;
  * false otherwise
  */
-bool operator==(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator==(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool igual;
+    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
+	igual = true;
+    }else{
+	igual = false;
+    }
+    return igual;
+}
 
 /**
  * @brief Overloading of the operator != for KmerFreq class
@@ -147,7 +186,15 @@ bool operator==(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
  * @return true if the two kmerFreq1 are not equals (see operator==); 
  * false otherwise
  */
-bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool igual;
+    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
+	igual = false;
+    }else{
+	igual = true;
+    }
+    return igual;
+}
 
 /**
  * @brief Overloading of the operator <= for KmerFreq class
@@ -155,7 +202,15 @@ bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 <= kmerFreq2; false otherwise
  */
-bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool menor_igual;
+    if (kmerFreq1.getFrequency()<=kmerFreq2.getFrequency()){
+	menor_igual = true;
+    }else{
+	menor_igual = false;
+    }
+    return menor_igual;
+}
 
 /**
  * @brief Overloading of the operator >= for KmerFreq class
@@ -163,6 +218,14 @@ bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 >= kmerFreq2; false otherwise
  */
-bool operator>=(KmerFreq kmerFreq1, KmerFreq kmerFreq2);
+bool operator>=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool mayor_igual;
+    if (kmerFreq1.getFrequency()>=kmerFreq2.getFrequency()){
+	mayor_igual = true;
+    }else{
+	mayor_igual = false;
+    }
+    return mayor_igual;
+}
 
 #endif /* KMER_FREQ_H */
