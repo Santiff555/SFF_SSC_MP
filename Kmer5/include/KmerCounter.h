@@ -284,7 +284,10 @@ private:
      * @param column The column in the frequency matrix corresponding to 
      * Kmer @p kmer. Output parameter
      */
-    void getRowColumn(Kmer kmer, int row, int column);
+    void getRowColumn(Kmer kmer, int row, int column){
+	row = kmer.getNumRows();
+	column = kmer.gettNumCols();
+    {
 
     /**
      * @brief Returns the Kmer that is defined by the provided row and column 

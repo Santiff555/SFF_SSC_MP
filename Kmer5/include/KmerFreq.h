@@ -136,13 +136,14 @@ bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
     if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
 	mayor = false;
     }
+    /** Esto no se como hacerlo, me lo he inventado.
     if (kmerFreq1.getFrequency()=kmerFreq2.getFrequency()){
 	if (kmerFreq1.length()<kmerFreq2.length()){
 	    mayor = true;
 	}else{
 	    mayot = false;
 	}
-    }
+    }*/
     return mayor;
 }
 
