@@ -17,7 +17,7 @@
 #ifndef KMER_FREQ_H
 #define KMER_FREQ_H
 
-#include "Kmer.h"
+#include "../include/Kmer.h"
 
 /**
  * @class KmerFreq
@@ -38,21 +38,21 @@ public:
      * Query method
      * @return A const reference to the Kmer of this KmerFreq object
      */
-    Kmer getKmer();
+    const Kmer& getKmer() const;
 
     /**
      * @brief Gets the frequency of this KmerFreq object
      * Query method
      * @return The frequency of this KmerFreq object
      */
-    int getFrequency();
+    int getFrequency() const;
 
     /**
      * @brief Sets the Kmer of this KmerFreq object.
      * Modifier method
      * @param kmer The new Kmer value for this object. Input parameter
      */
-    void setKmer(Kmer kmer);
+    void setKmer(const Kmer& kmer);
 
     /**
      * @brief Sets the frequency of this KmerFreq object
@@ -62,7 +62,7 @@ public:
      * Input parameter
      */
     void setFrequency(int frequency);
-    
+
     /**
      * @brief Obtains a string with the string and frequency of the kmer
      * in this object (separated by a whitespace).
@@ -70,8 +70,8 @@ public:
      * @return A string with the nucleotide and frequency of the kmer
      * in this object
      */
-    std::string toString();
-    
+    std::string toString() const;
+
     /**
      * @brief Writes this object to the given output stream. It first writes
      * the kmer of this object (using method Kmer::write(ostream&)) 
@@ -80,8 +80,8 @@ public:
      * Query method
      * @param outputStream An output stream where this object will be written
      */
-    void write(std::ostream outputStream);
-    
+    void write(std::ostream& outputStream) const;
+
     /**
      * @brief Reads this object from the given input stream. It first reads
      * the Kmer of this object (using method Kmer::read(std::istream&) and 
@@ -90,8 +90,8 @@ public:
      * Modifier method
      * @param inputStream An input stream from which this object will be read
      */
-    void read(std::istream inputStream);
-    
+    void read(std::istream& inputStream);
+
 private:
     Kmer _kmer; ///< the Kmer object
     int _frequency; ///< the frequency
@@ -103,10 +103,7 @@ private:
  * @param kmerFreq the KmerFreq object. Input parameter
  * @return @p os A reference to the output stream
  */
-std::ostream operator<<(std::ostream os, KmerFreq kmerFreq){
-    os << "La frecuencia es: " << kmerFreq.getFrequency();
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, const KmerFreq& kmerFreq);
 
 /**
  * @brief Overloading of the stream extraction operator for KmerFreq class
@@ -114,38 +111,17 @@ std::ostream operator<<(std::ostream os, KmerFreq kmerFreq){
  * @param kmerFreq the KmerFreq object. Input parameter
  * @return @p is A reference to the input stream
  */
-std::istream operator>>(std::istream is, KmerFreq kmerFreq){
-    int freq = kmerFreq.getFrequency();
-    is >> kmerFreq.setFrequency(freq);
-    return is;
-}
+std::istream& operator>>(std::istream& is, KmerFreq& kmerFreq);
 
 /**
  * @brief Overloading of the relational operator > for KmerFreq class
  * @param kmerFreq1 The first object to be compared. Input parameter
  * @param kmerFreq2 The second object to be compared. Input parameter
  * @return true if the frequency of @p kmerFreq1 is greater than that of
- * @p kmerFreq2 or if both frequencies are equals and the text of 
- * @p kmerFreq1 is minor than the text of @p kmerFreq2; false otherwise
+ * @p kmerFreq2 or if both frequencies are equal and the text of 
+ * @p kmerFreq1 is less than the text of @p kmerFreq2; false otherwise
  */
-bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool mayor;
-    if (kmerFreq1.getFrequency()>kmerFreq2.getFrequency()){
-	mayor = true;
-    }
-    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
-	mayor = false;
-    }
-    /** Esto no se como hacerlo, me lo he inventado.
-    if (kmerFreq1.getFrequency()=kmerFreq2.getFrequency()){
-	if (kmerFreq1.length()<kmerFreq2.length()){
-	    mayor = true;
-	}else{
-	    mayot = false;
-	}
-    }*/
-    return mayor;
-}
+bool operator>(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 /**
  * @brief Overloading of the operator < for KmerFreq class
@@ -153,49 +129,25 @@ bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 < kmerFreq2; false otherwise
  */
-bool operator<(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool menor;
-    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
-	menor = true;
-    }else{
-	menor = false;
-    }
-    return menor;
-}
+bool operator<(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 /**
  * @brief Overloading of the operator == for Kmer class
  * @param kmerFreq1 a KmerFreq object. Input parameter
  * @param kmerFreq2 a KmerFreq object. Input parameter
- * @return true if the two kmers contains the same pair Kmer-frequency;
+ * @return true if the two kmers contain the same pair Kmer-frequency;
  * false otherwise
  */
-bool operator==(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool igual;
-    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
-	igual = true;
-    }else{
-	igual = false;
-    }
-    return igual;
-}
+bool operator==(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 /**
  * @brief Overloading of the operator != for KmerFreq class
  * @param kmerFreq1 a Kmer object. Input parameter
  * @param kmerFreq2 a Kmer object. Input parameter
- * @return true if the two kmerFreq1 are not equals (see operator==); 
+ * @return true if the two kmerFreq1 are not equal (see operator==); 
  * false otherwise
  */
-bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool igual;
-    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
-	igual = false;
-    }else{
-	igual = true;
-    }
-    return igual;
-}
+bool operator!=(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 /**
  * @brief Overloading of the operator <= for KmerFreq class
@@ -203,15 +155,7 @@ bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 <= kmerFreq2; false otherwise
  */
-bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool menor_igual;
-    if (kmerFreq1.getFrequency()<=kmerFreq2.getFrequency()){
-	menor_igual = true;
-    }else{
-	menor_igual = false;
-    }
-    return menor_igual;
-}
+bool operator<=(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 /**
  * @brief Overloading of the operator >= for KmerFreq class
@@ -219,14 +163,6 @@ bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
  * @param kmerFreq2 a Kmer object. Input parameter
  * @return true if kmerFreq1 >= kmerFreq2; false otherwise
  */
-bool operator>=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
-    bool mayor_igual;
-    if (kmerFreq1.getFrequency()>=kmerFreq2.getFrequency()){
-	mayor_igual = true;
-    }else{
-	mayor_igual = false;
-    }
-    return mayor_igual;
-}
+bool operator>=(const KmerFreq& kmerFreq1, const KmerFreq& kmerFreq2);
 
 #endif /* KMER_FREQ_H */

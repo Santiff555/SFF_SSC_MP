@@ -330,3 +330,54 @@ std::string Profile::getProfileId()
 {
     return _profileId;
 }
+
+const KmerFreq& Profile::operator[](int index) const {
+    return at(index);
+}
+
+KmerFreq& Profile::operator[](int index) {
+    return at(index);
+}
+
+Profile& Profile::operator+=(const KmerFreq& kmerFreq) {
+    append(kmerFreq);
+    return *this;
+}
+
+Profile& Profile::operator+=(const Profile& profile) {
+    for (int i = 0; i < profile.getSize(); ++i) {
+        append(profile._vectorKmerFreq[i]);
+    }
+    return *this;
+}
+
+void Profile::write(std::ostream& outputStream) const {
+    outputStream << _profileId << std::endl;
+    outputStream << _util << std::endl;
+    for (int i = 0; i < _util; ++i) {
+        _vectorKmerFreq[i].write(outputStream);
+    }
+}
+
+void Profile::read(std::istream& inputStream) {
+    std::string id;
+    int size;
+    inputStream >> id >> size;
+    setProfileId(id);
+    allocate(size);
+    for (int i = 0; i < size; ++i) {
+        KmerFreq kf;
+        kf.read(inputStream);
+        append(kf);
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, const Profile& profile) {
+    profile.write(os);
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Profile& profile) {
+    profile.read(is);
+    return is;
+}

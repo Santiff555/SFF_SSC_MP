@@ -1,16 +1,14 @@
 /*
- * Metodología de la Programación: Kmer5
+ * Metodología de la Programación: Kmer2
  * Curso 2023/2024
  */
 
 /** 
  * @file Profile.h
- * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
- * @author Andrés Cano Utrera <acu@decsai.ugr.es>
- * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
- * @author Javier Martínez Baena <jbaena@ugr.es>
- * 
- * Created on 17 November 2023, 10:15
+ * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
+ * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ *
+* Created on 14 April 2024, 13:58
  */
 
 #ifndef PROFILE_H
@@ -18,7 +16,8 @@
 
 
 #include <iostream>
-#include "KmerFreq.h"
+#include <cstring>
+#include "../include/KmerFreq.h"
 
 /**
  * @class Profile
@@ -31,46 +30,29 @@ public:
 
     /**
      * @brief Base constructor. It builds a Profile object with "unknown" as
-     * identifier, and an empty vector of pairs Kmer-frequency. The vector will
-     * have Kmer::INITIAL_CAPACITY as initial capacity.
+     * identifier, and an empty vector of pairs Kmer-frequency. 
      */
     Profile();
+    
+    ~Profile();
 
    
     /**
      * @brief It builds a Profile object with "unknown" as
-     * identifier, and a vector with a size of @p size pairs 
-     * Kmer-frequency. The vector will also have @p size as initial capacity.
-     * Each pair will be initialized as Kmer::MISSING_NUCLEOTIDE for the Kmer 
+     * identifier, and a vector with a size of @p size pairs Kmer-frequency. 
+     * Each pair will be initialized as Kmer::MISSING_NUCLEOTIDE for the Kmer
      * and 0 for the frequency.
      * @throw std::out_of_range Throws a std::out_of_range exception if
-     * @p size <0
-     * @param size The size for the vector of kmers in this Profile.
+     * @p size<0 or @p size > @p DIM_VECTOR_KMER_FREQ
+     * @param size The size for the vector of kmers in this Profile. 
      * Input parameter
      */
-    Profile(int size);
-
-    /**
-     * @brief Copy constructor
-     * @param orig the Profile object used as source for the copy. Input 
-     * parameter
-     */
-    Profile(Profile orig);
-
-    /**
-     * @brief Destructor
-     */
-    ~Profile();
-
-    /**
-     * @brief Overloading of the assignment operator for Profile class.
-     * Modifier method
-     * @param orig the Profile object used as source for the assignment. Input
-     * parameter
-     * @return A reference to this object
-     */
-    Profile operator=(Profile orig);
-
+    Profile(const int size);
+    
+    Profile& operator=(const Profile& otherProfile);
+    
+    Profile(const Profile& otherProfile);
+    
     /**
      * @brief Returns the identifier of this profile object.
      * Query method
@@ -83,7 +65,7 @@ public:
      * Modifier method
      * @param id The new identifier. Input parameter
      */
-    void setProfileId(std::string id);
+    void setProfileId(const std::string id);
 
 
     /**
@@ -95,7 +77,7 @@ public:
      * given index is not valid
      * @return A const reference to the KmerFreq at the given position
      */
-    KmerFreq at(int index); 
+    const KmerFreq& at(const int index) const; 
 
     /**
      * @brief Gets a reference to the KmerFreq at the given position of the 
@@ -106,23 +88,23 @@ public:
      * given index is not valid
      * @return A reference to the KmerFreq at the given position
      */
-    KmerFreq at(int index); 
+    KmerFreq& at(int index); 
 
     /**
      * @brief Gets the number of KmerFreq objects.
      * Query method
      * @return The number of KmerFreq objects 
      */
-    int getSize();
+    int getSize() const;
     
     /**
      * @brief Gets the capacity of the vector of KmerFreq objects.
      * Query method
      * @return The capacity of the vector of KmerFreq objects
      */
-    int getCapacity();
+    int getCapacity() const;
     
-    /**
+     /**
      * @brief Gets the distance between this Profile object (\f$P_1\f$) and 
      * the given argument object @p otherProfile (\f$P_2\f$).
      * The distance between two Profiles \f$P_1\f$ and \f$P_2\f$ is 
@@ -152,8 +134,8 @@ public:
      * @return The distance between this Profile object and the given 
      * argument @p otherProfile.
      */
-    double getDistance(Profile otherProfile);
-    
+    double getDistance(Profile otherProfile) ;
+
     /**
      * @brief Searchs the given kmer in the list of kmers in this
      * Profile, but only in positions from initialPos to finalPos 
@@ -167,8 +149,8 @@ public:
      * @return If found, it returns the position where the kmer 
      * was found. If not, it returns -1
      */
-    int findKmer(Kmer kmer, int initialPos, int finalPos);
-
+    int findKmer(const Kmer kmer, const int initialPos, const int finalPos);
+    
     /**
      * @brief Searchs the given kmer in the list of kmers in this
      * Profile. If found, it returns the position where it was found. If not,
@@ -179,7 +161,7 @@ public:
      * @return If found, it returns the position where the kmer 
      * was found. If not, it returns -1
      */
-    int findKmer(Kmer kmer);
+    int findKmer(const Kmer kmer);
 
     /**
      * @brief Obtains a string with the following content:
@@ -191,7 +173,7 @@ public:
      * @return A string with the number of kmers and the list of pairs of
      * kmer-frequency in the object
      */
-    std::string toString();
+    std::string toString() const;
 
     /**
      * @brief Sorts the vector of KmerFreq in decreasing order of frequency.
@@ -207,15 +189,11 @@ public:
      * Query method
      * @param fileName A c-string with the name of the file where this Profile 
      * object will be saved. Input parameter
-     * @param mode The mode to use to save this Profile object: 't' for text
-     * mode and 'b' for binary mode. Input parameter
-     * @throw std::invalid_argument Throws a std::invalid_argument exception
-     * if the given @mode is not valid ('t' or 'b')
      * @throw std::ios_base::failure Throws a std::ios_base::failure exception 
      * if the given file cannot be opened or if an error occurs while writing
      * to the file
      */
-    void save(char fileName[], char mode = 't');
+    void save(const char fileName[]); 
 
     /**
      * @brief Loads into this object the Profile object stored in the given 
@@ -234,7 +212,7 @@ public:
      * @throw throw std::invalid_argument Throws a std::invalid_argument if
      * an invalid magic string is found in the given file
      */
-    void load(char fileName[]);
+    void load(const char fileName[]);
      
     /**
      * @brief Appends a copy of the given KmerFreq to this Profile object.
@@ -243,14 +221,14 @@ public:
      * given KmerFreq object is appended to the end of the list of
      * KmerFreq objects in this Profile.
      * Modifier method
-     * @thow std::out_of_range Throws a std::out_of_range exception in case
+     * @throw std::out_of_range Throws a std::out_of_range exception in case
      * that a new element must be appended to the end of the array and the
      * number of elements in the array of KmerFreq is equals to the capacity
      * of that array. In that case, the array is full, and no more elements
      * can be appended to the array.
      * @param kmerFreq The KmerFreq to append to this object. Input paramether
      */
-    void append(KmerFreq kmerFreq);
+    void append(const KmerFreq kmerFreq);
     
     /**
      * @brief Normalizes the Kmers of the vector of KmerFreq in this object. 
@@ -286,7 +264,7 @@ _G 5
      * @param validNucleotides a string with the list of characters (nucleotides) 
      * that should be considered as valid. Input parameter
      */
-    void normalize(std::string validNucleotides);
+    void normalize(const std::string validNucleotides);
 
     /**
      * @brief Deletes the KmerFreq object from the vector of KmerFreq in this
@@ -297,7 +275,7 @@ _G 5
      * @throw std::out_of_range Throws an std::out_of_range exception if @p pos 
      * is not in the range from 0 to size()-1 (both included).
      */
-    void deletePos(int pos);
+    void deletePos(const int pos);
 
     /**
      * @brief Deletes the KmerFreq objects from the vector of KmerFreq in this
@@ -317,7 +295,7 @@ _G 5
      * deleted. This parameter has zero as default value.
      * Input parameter
      */
-    void zip(bool deleteMissing=false, int lowerBound = 0);
+    void zip(const bool deleteMissing=false, const int lowerBound = 0);
     
     /**
      * @brief Appends to this Profile object, the list of pairs  
@@ -327,64 +305,70 @@ _G 5
      * Profile @p profile
      * Modifier method
      * @param profile A Profile object. Input parameter
-     * @deprecated This method could be removed in future versions of this 
-     * class. Use the operator += instead.
      */
-    void join(Profile profile);
+    void join(const Profile profile);
+    
+    /**
+     * @brief Writes this Profile object to the given output stream. It first writes
+     * the profile identifier, then the number of KmerFreq objects, followed by each
+     * KmerFreq object using its write method.
+     * Query method
+     * @param outputStream An output stream where this object will be written
+     */
+    void write(std::ostream& os) const;
+
+    /**
+     * @brief Reads this Profile object from the given input stream. It first reads
+     * the profile identifier, then the number of KmerFreq objects, followed by each
+     * KmerFreq object using its read method.
+     * Modifier method
+     * @param inputStream An input stream from which this object will be read
+     */
+    void read(std::istream& is);
     
     /**
      * @brief Overloading of the [] operator for Profile class
      * @param index index of the element. Input parameter
-     * Query method
      * @return A const reference to the KmerFreq object at position @p index
      */
-    KmerFreq operator[](int index);
+    const KmerFreq& operator[](int index) const;
 
     /**
      * @brief Overloading of the [] operator for Profile class
      * @param index index of the element. Input parameter
-     * Query and modifier method
      * @return A reference to the KmerFreq object at position @p index
      */
-    KmerFreq operator[](int index);
-    
-    /**
-     * @brief Overloading of the += operator with a KmerFreq parameter. 
-     * It appends to this Profile object a copy of the given KmerFreq.
-     * If the kmer is found in this object, then its frequency is increased
-     * with the one of the given KmerFreq object. If not, a copy of the 
-     * given KmerFreq object is appended to the end of the list of
-     * KmerFreq objects in this Profile.
-     * Modifier method
-     * @param kmerFreq The KmerFreq object to append to this object. 
-     * Input parameter
-     * @return A reference to this object.
-     */
-    Profile operator+=(KmerFreq kmerFreq);
+    KmerFreq& operator[](int index);
 
     /**
-     * @brief Overloading of the += operator with a Profile parameter. 
-     * For each kmer in the given Profile @p profile, if that kmer is 
-     * found in this object, then its frequency is increased with the one in 
-     * @p profile. If not, a copy of the kmer-pair is appended to the end
-     * of the list of KmerFreq objects in this Profile.
-     * Modifier method
+     * @brief Overloading of the += operator with a KmerFreq parameter. It appends to this Profile object a copy of the given KmerFreq.
+     * @param kmerFreq The KmerFreq object to append to this object. Input parameter
+     * @return A reference to this object.
+     */
+    Profile& operator+=(const KmerFreq& kmerFreq);
+
+    /**
+     * @brief Overloading of the += operator with a Profile parameter. For each kmer in the given Profile @p profile, if that kmer is found in this object, then its frequency is increased with the one in @p profile. If not, a copy of the kmer-pair is appended to the end of the list of KmerFreq objects in this Profile.
      * @param profile A Profile object. Input parameter
      * @return A reference to this object.
      */
-    Profile operator+=(Profile profile);
+    Profile& operator+=(const Profile& profile);
     
 private:
-    std::string _profileId; ///< Profile identifier
-    KmerFreq* _vectorKmerFreq; ///< Dynamic array of KmerFreq
-    int _size; ///< Number of used elements in the dynamic array _vectorKmerFreq
-    int _capacity; ///< Number of reserved elements in the dynamic array _vectorKmerFreq
-
-    static const int INITIAL_CAPACITY=10; ///< Default initial capacity for the dynamic array _vectorKmerFreq. Should be a number >= 0
-    static const int BLOCK_SIZE=20; ///< Size of new blocks in the dynamic array _vectorKmerFreq 
-
+    void copy(const Profile& otherProfile);
+    void allocate(int new_capacity);
+    void deallocate();
+    void reallocate(int new_capacity);
+        
+private:
+    static const int INITIAL_CAPACITY = 10, BLOCK_SIZE = 10; ///< The capacity of the array _vectorKmerFreq
     static const std::string MAGIC_STRING_T; ///< A const string with the magic string for text files
     static const std::string MAGIC_STRING_B; ///< A const string with the magic string for binary files
+
+    std::string _profileId; ///< profile identifier
+    KmerFreq *_vectorKmerFreq; ///< array of KmerFreq
+    int _util; ///< Number of used elements in _vectorKmerFreq
+    int _capacidad;
 };
 
 /**
@@ -393,18 +377,15 @@ private:
  * @param profile the Profile object. Input parameter
  * @return @p os A reference to the output stream
  */
-std::ostream operator<<(std::ostream os, Profile profile);
+std::ostream& operator<<(std::ostream& os, const Profile& profile);
 
 /**
  * @brief Overloading of the stream extraction operator for Profile class.
- * Note that this operator should remove any Kmer-frequency pairs that 
- * the argument Profile object previously contained.
- * @throw std::out_of_range Throws a std::out_of_range if the number of kmers
- * read from the file is negative.
+ * Note that this operator should remove any Kmer-frequency pairs that the argument Profile object previously contained.
  * @param is The input stream to be used. Output parameter
  * @param profile the Profile object. Output parameter
  * @return @p is A reference to the input stream
  */
-std::istream operator>>(std::istream is, Profile profile);
+std::istream& operator>>(std::istream& is, Profile& profile);
 
 #endif /* PROFILE_H */
