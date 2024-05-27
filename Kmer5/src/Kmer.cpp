@@ -102,6 +102,14 @@ Kmer Kmer::complementary(const std::string& nucleotides,
     return solution;
 }
 
+void Kmer::write(std::ostream& outputStream) const {
+    outputStream.write(_text.c_str(), _text.size());
+}
+
+void Kmer::read(std::istream& inputStream) {
+    inputStream >> _text;
+}
+
 bool IsValidNucleotide(char nucleotide, const std::string& validNucleotides)
 {
     bool solution = true;
@@ -127,4 +135,14 @@ void ToUpper(Kmer& kmer)
     {
         kmer.at(i) = toupper(kmer.at(i));
     }   
+}
+
+std::ostream& operator<<(std::ostream& os, const Kmer& kmer) {
+    kmer.write(os);
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Kmer& kmer) {
+    kmer.read(is);
+    return is;
 }
