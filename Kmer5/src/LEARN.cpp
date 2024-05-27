@@ -1,4 +1,8 @@
 #include <iostream>
+#include <cstring>
+
+#include "../include/Profile.h"
+#include "../include/KmerCounter.h"
 /*
  * Metodología de la Programación: Kmer5
  * Curso 2023/2024
@@ -67,17 +71,65 @@ TA 1
  * @return 0 If there is no error; a value > 0 if error
  */
 int main(int argc, char *argv[]) {   
-    std::cout<<"Estoy en Learn"<<std::endl;
-    // Process the main() arguments
+// Process the main() arguments
+    // Default values
+    char mode = 't';
+    int kValue = 5;
+    string nucleotidesSet = "ACGT";
+    string profileId = "unknown";
+    string outputFilename = "output.prf";
+
+    // Parse command line arguments
+    int i = 1;
+    while (i < argc) {
+        if (strcmp(argv[i], "-t") == 0) {
+            mode = 't';
+        } else if (strcmp(argv[i], "-b") == 0) {
+            mode = 'b';
+        } else if (strcmp(argv[i], "-k") == 0 && i + 1 < argc) {
+            kValue = atoi(argv[++i]);
+        } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
+            nucleotidesSet = argv[++i];
+        } else if (strcmp(argv[i], "-p") == 0 && i + 1 < argc) {
+            profileId = argv[++i];
+        } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
+            outputFilename = argv[++i];
+        } else if (argv[i][0] != '-') {
+            break;
+        } else {
+            showEnglishHelp(cerr);
+            return 1;
+        }
+        ++i;
+    }
+
+    if (i >= argc) {
+        showEnglishHelp(cerr);
+        return 1;
+    }
     
-    // Loop to calculate the kmer frecuencies of the input genome files using 
-    // a KmerCounter object
+// Loop to calculate the kmer frecuencies of the input genome files using 
+// a KmerCounter object
     
-    // Obtain a Profile object from the KmerCounter object
+    // Create KmerCounter
+    KmerCounter kmerCounter(kValue, nucleotidesSet);
+
+    // Process each input file
+    for (; i < argc; ++i) {
+        kmerCounter.calculateFrequencies(argv[i]);
+    }
     
-    // Zip the Profile object
+// Obtain a Profile object from the KmerCounter object
     
-    // Sort the Profile object
+    Profile profile = kmerCounter.toProfile();
+    // Set the correct profile ID
+    profile.setProfileId(profileId);
     
-    // Save the Profile object in the output file
+// Zip the Profile object
+    profile.zip(true, 0);
+// Sort the Profile object
+    profile.sort();
+// Save the Profile object in the output file
+    profile.save(outputFilename.c_str(), mode);
+    return 0;
 }

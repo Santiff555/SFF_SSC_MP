@@ -31,7 +31,7 @@ OBJS_kmer5 =  \
 	$(TARGETDIR_kmer5)/ArrayKmerFreqFunctions.o \
 	$(TARGETDIR_kmer5)/Profile.o \
 	$(TARGETDIR_kmer5)/KmerCounter.o \
-	$(TARGETDIR_kmer5)/LEARN.o \
+	$(TARGETDIR_kmer5)/CLASSIFY.o \
 	$(TARGETDIR_kmer5)/metamain.o
 USERLIBS_kmer5 = $(SYSLIBS_kmer5) 
 DEPLIBS_kmer5 =  
@@ -62,8 +62,8 @@ $(TARGETDIR_kmer5)/KmerCounter.o: $(TARGETDIR_kmer5) src/KmerCounter.cpp
 $(TARGETDIR_kmer5)/LEARN.o: $(TARGETDIR_kmer5) src/LEARN.cpp 
 	$(COMPILE.cc) $(CCFLAGS_kmer5) $(CPPFLAGS_kmer5) -o $@ src/LEARN.cpp
  
-#$(TARGETDIR_kmer5)/CLASSIFY.o: $(TARGETDIR_kmer5) src/CLASSIFY.cpp 
-#	$(COMPILE.cc) $(CCFLAGS_kmer5) $(CPPFLAGS_kmer5) -o $@ src/CLASSIFY.cpp
+$(TARGETDIR_kmer5)/CLASSIFY.o: $(TARGETDIR_kmer5) src/CLASSIFY.cpp 
+	$(COMPILE.cc) $(CCFLAGS_kmer5) $(CPPFLAGS_kmer5) -o $@ src/CLASSIFY.cpp
 
 $(TARGETDIR_kmer5)/metamain.o: $(TARGETDIR_kmer5) src/metamain.cpp 
 	$(COMPILE.cc) $(CCFLAGS_kmer5) $(CPPFLAGS_kmer5) -o $@ src/metamain.cpp

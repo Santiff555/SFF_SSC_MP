@@ -185,16 +185,16 @@ public:
     void sort();
 
     /**
-     * @brief Saves this Profile object in the given file. 
+     * @brief Saves this Profile object in the given file.
      * Query method
      * @param fileName A c-string with the name of the file where this Profile 
      * object will be saved. Input parameter
-     * @throw std::ios_base::failure Throws a std::ios_base::failure exception 
-     * if the given file cannot be opened or if an error occurs while writing
-     * to the file
+     * @param mode The mode to use to save this Profile object: 't' for text
+     * mode and 'b' for binary mode. Input parameter
      */
-    void save(const char fileName[]); 
-
+    void save(const char fileName[], char mode) ;
+    
+   
     /**
      * @brief Loads into this object the Profile object stored in the given 
      * file. Note that this method should remove any Kmer-frequency pairs that 

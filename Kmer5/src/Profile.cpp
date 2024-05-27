@@ -82,12 +82,12 @@ int Profile::getCapacity() const
 
 void Profile::sort()
 {
-    SortArrayKmerFreq(_vectorKmerFreq, getCapacity());
-    
-    for (int i = 0; i < _util - 1; i++){
-        for (int j = i+1; j < _util ; j++) { 
-            if(_vectorKmerFreq[i].getKmer().toString() < _vectorKmerFreq[j].getKmer().toString()){ //tal vez esto falle, comprobarlo
-                  SwapElementsArrayKmerFreq(_vectorKmerFreq,_util,i,j);
+    for (int i = 0; i < _util - 1; ++i) {
+        for (int j = 0; j < _util - i - 1; ++j) {
+            if (_vectorKmerFreq[j].getFrequency() < _vectorKmerFreq[j + 1].getFrequency() ||
+                (_vectorKmerFreq[j].getFrequency() == _vectorKmerFreq[j + 1].getFrequency() &&
+                 _vectorKmerFreq[j].getKmer().toString() > _vectorKmerFreq[j + 1].getKmer().toString())) {
+                std::swap(_vectorKmerFreq[j], _vectorKmerFreq[j + 1]);
             }
         }
     }
@@ -138,32 +138,42 @@ void Profile::load(const char fileName[]) {
     _util = i;
 }
 
-void Profile::save(const char fileName[])
-{
-    std::ofstream outputFile(fileName);    
-    
-    //Comprobamos si hay algun fallo abriendo el fichero
-    if (!outputFile.is_open())
-    {
-        std::cout << "Error trying to open the file: "<<fileName<<std::endl;
+void Profile::save(const char fileName[], char mode) {
+    if (mode != 't' && mode != 'b') {
+        std::cerr << "Invalid mode: " << mode << ". Use 't' for text or 'b' for binary." << std::endl;
         exit(EXIT_FAILURE);
     }
-    
-    //Indicamos que es un fichero de Profile
-    outputFile<<MAGIC_STRING_T<<std::endl;
-  
-    //Escribimos el id del Profile
-    outputFile<<_profileId<<std::endl;
-    
-    //Escribimos el numero de kmerFreq en el fichero.
-    outputFile<<_util<<std::endl;
-    
-    //Escribimos los kmerFreq
-    for(int i = 0; i < getSize(); i++)
-    {
-        outputFile<<_vectorKmerFreq[i].toString()<<std::endl;
+
+    std::ofstream outputFile;
+    if (mode == 't') {
+        outputFile.open(fileName);
+    } else if (mode == 'b') {
+        outputFile.open(fileName, std::ios::binary);
     }
-    
+
+    if (!outputFile.is_open()) {
+        std::cerr << "Error trying to open the file: " << fileName << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (mode == 't') {
+        outputFile << MAGIC_STRING_T << std::endl;
+        write(outputFile);
+    } else if (mode == 'b') {
+        std::string magicString = MAGIC_STRING_T;
+        outputFile.write(magicString.c_str(), magicString.size());
+        outputFile.put('\n'); // Adding newline character after magic string
+        // Write the profile id
+        outputFile.write(_profileId.c_str(), _profileId.size());
+        outputFile.put('\n'); // Adding newline character after profile id
+        // Write the number of KmerFreq objects
+        outputFile.write(reinterpret_cast<const char*>(&_util), sizeof(_util));
+        // Write each KmerFreq object
+        for (int i = 0; i < _util; ++i) {
+            _vectorKmerFreq[i].write(outputFile);
+        }
+    }
+
     outputFile.close();
 }
 
@@ -352,10 +362,11 @@ Profile& Profile::operator+=(const Profile& profile) {
 }
 
 void Profile::write(std::ostream& outputStream) const {
-    outputStream << _profileId << std::endl;
-    outputStream << _util << std::endl;
+    outputStream << _profileId << endl;
+    outputStream << _util << endl;
     for (int i = 0; i < _util; ++i) {
         _vectorKmerFreq[i].write(outputStream);
+        outputStream << endl;
     }
 }
 
@@ -371,6 +382,8 @@ void Profile::read(std::istream& inputStream) {
         append(kf);
     }
 }
+
+
 
 std::ostream& operator<<(std::ostream& os, const Profile& profile) {
     profile.write(os);

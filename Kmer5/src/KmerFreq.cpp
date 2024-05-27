@@ -53,12 +53,12 @@ std::string KmerFreq::toString() const
 
 void KmerFreq::write(std::ostream& outputStream) const {
     _kmer.write(outputStream);
-    outputStream.write(reinterpret_cast<const char*>(&_frequency), sizeof(_frequency));
+    outputStream << " " << _frequency << " ";
 }
 
 void KmerFreq::read(std::istream& inputStream) {
     _kmer.read(inputStream);
-    inputStream.read(reinterpret_cast<char*>(&_frequency), sizeof(_frequency));
+    inputStream >> _frequency;
 }
 
 std::ostream& operator<<(std::ostream& os, const KmerFreq& kmerFreq) {

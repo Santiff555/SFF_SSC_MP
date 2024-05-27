@@ -1,5 +1,8 @@
 
 #include <iostream>
+#include <cstring>
+#include "../include/KmerCounter.h"
+#include "../include/Profile.h"
 /*
  * Metodología de la Programación: Kmer5
  * Curso 2023/2024
@@ -75,23 +78,79 @@ Final decision: homo sapiens with a distance of 0.0557804
  * @return 0 If there is no error; a value > 0 if error
  */
 int main(int argc, char *argv[]) {
-     std::cout<<"Estoy en Classify"<<std::endl;
-    // Process the main() arguments
+// Process the main() arguments
+    // Default values
+    int kValue = 5;
+    string nucleotidesSet = "ACGT"; 
     
-    // Calculate the kmer frecuencies of the input genome file using 
-    //    a KmerCounter object
+    // Parse command line arguments
+    int i = 1;
+    while (i < argc) {
+        if (strcmp(argv[i], "-k") == 0 && i + 1 < argc) {
+            kValue = atoi(argv[++i]);
+        } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
+            nucleotidesSet = argv[++i];
+        } else if (argv[i][0] != '-') {
+            break;
+        } else {
+            showEnglishHelp(cerr);
+            return 1;
+        }
+        ++i;
+    }
+
+    if (i >= argc) {
+        showEnglishHelp(cerr);
+        return 1;
+    }
+
+    char* dnaFilename = argv[i++];
+    if (i >= argc) {
+        showEnglishHelp(cerr);
+        return 1;
+    }
     
-    // Obtain a Profile object for the input genome from the KmerCounter object
+// Calculate the kmer frecuencies of the input genome file using 
+//    a KmerCounter object
     
-    // Zip the for the input genome Profile object
+    // Create KmerCounter and process the input DNA file
+    KmerCounter kmerCounter(kValue, nucleotidesSet);
+    kmerCounter.calculateFrequencies(dnaFilename);
     
-    // Sort the for the input genome Profile object
+// Obtain a Profile object from the KmerCounter object
+    Profile inputProfile = kmerCounter.toProfile();
     
-    // Use a loop to print the distance from the input genome to 
-    //   each one of the provided profile models
+// Zip the for the input genome Profile object
+    inputProfile.zip(true, 0);
     
-    // Print the identifier and distance to the closest profile
+// Sort the for the input genome Profile object
+    inputProfile.sort();
     
+// Use a loop to print the distance from the input genome to 
+//   each one of the provided profile models
+    
+    // Variables to track the closest profile
+    double minDistance;
+    string closestProfileId;
+
+    bool firstProfile = true;
+
+    // Process each profile file and calculate the distance
+    for (; i < argc; ++i) {
+        Profile profile;
+        profile.load(argv[i]);
+
+        double distance = inputProfile.getDistance(profile);
+        cout << "Distance to " << argv[i] << " (" << profile.getProfileId() << "): " << distance << endl;
+
+        if (firstProfile || distance < minDistance) {
+            minDistance = distance;
+            closestProfileId = profile.getProfileId();
+            firstProfile = false;
+        }
+    }
+// Print the identifier and distance to the closest profile
+    cout << "Final decision: " << closestProfileId << " with a distance of " << minDistance << endl;
     
  
 }
