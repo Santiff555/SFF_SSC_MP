@@ -82,7 +82,7 @@ public:
      * @param orig the KmerCounter object used as source for the copy. 
      * Input parameter
      */
-    KmerCounter(const KmerCounter &orig);
+    KmerCounter(KmerCounter orig);
 
     /**
      * @brief Destructor
@@ -157,7 +157,11 @@ public:
      * Input parameter
      * @return A reference to this object
      */
-    KmerCounter operator=(KmerCounter orig);
+    KmerCounter operator=(KmerCounter orig){
+	(*this)(getNumRows() - 1, getNumCols() - 1) = orig(getNumRows() - 1, getNumCols() - 1);
+        return *this;
+    }
+
 
     /**
      * @brief Overloading of the operator +=. It increases the current 
@@ -171,7 +175,10 @@ public:
      * kmers).
      * @return A reference to this object
      */
-    KmerCounter operator+=(KmerCounter kc);
+    KmerCounter operator+=(KmerCounter kc){
+        (*this)(getNumRows() - 1, getNumCols() - 1) += kc(getNumRows() - 1, getNumCols() - 1);
+        return *this;
+    }
 
     /**
      * @brief Reads the given text file and calculates the frequencies of each 
@@ -277,7 +284,10 @@ private:
      * @param column The column in the frequency matrix corresponding to 
      * Kmer @p kmer. Output parameter
      */
-    void getRowColumn(Kmer kmer, int row, int column);
+    void getRowColumn(Kmer kmer, int row, int column){
+	row = kmer.getNumRows();
+	column = kmer.gettNumCols();
+    {
 
     /**
      * @brief Returns the Kmer that is defined by the provided row and column 
@@ -308,7 +318,7 @@ private:
      * @param column Column of the element. Input parameter
      * @return A const reference to the element at the given position
      */
-//    int operator()(int row, int column);
+    int operator()(int row, int column);
 
     /**
      * @brief Overloading of the () operator to access to the element at a 
@@ -318,7 +328,7 @@ private:
      * @param column Column of the element. Input parameter
      * @return A reference to the element at the given position
      */
-    //int operator()(int row, int column);
+    int operator()(int row, int column);
 };
 
 #endif /* KMER_COUNTER_H */

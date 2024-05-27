@@ -1,14 +1,16 @@
 /*
- * Metodología de la Programación: Kmer0
+ * Metodología de la Programación: Kmer5
  * Curso 2023/2024
  */
 
 /* 
- * File:   KmerFreq.cpp
- * @author Santiago Fernández Fernández <santiff55@correo.ugr.es>
- * @author Santiago Salazar Cano <santyns17@correo.ugr.es>
+ * @file   KmerFreq.h
+ * @author Silvia Acid Carrillo <acid@decsai.ugr.es>
+ * @author Andrés Cano Utrera <acu@decsai.ugr.es>
+ * @author Luis Castillo Vidal <L.Castillo@decsai.ugr.es>
+ * @author Javier Martínez Baena <jbaena@ugr.es>
  *
- * Created on 28 March 2024, 13:58
+ * Created on 17 November 2023, 10:15
  */
 
 
@@ -36,21 +38,21 @@ public:
      * Query method
      * @return A const reference to the Kmer of this KmerFreq object
      */
-    const Kmer& getKmer() const;
+    Kmer getKmer();
 
     /**
      * @brief Gets the frequency of this KmerFreq object
      * Query method
      * @return The frequency of this KmerFreq object
      */
-    int getFrequency() const;
+    int getFrequency();
 
     /**
      * @brief Sets the Kmer of this KmerFreq object.
      * Modifier method
      * @param kmer The new Kmer value for this object. Input parameter
      */
-    void setKmer(const Kmer kmer);
+    void setKmer(Kmer kmer);
 
     /**
      * @brief Sets the frequency of this KmerFreq object
@@ -59,7 +61,7 @@ public:
      * @param frequency the new frequency value for this KmerFreq object. 
      * Input parameter
      */
-    void setFrequency(const int frequency);
+    void setFrequency(int frequency);
     
     /**
      * @brief Obtains a string with the string and frequency of the kmer
@@ -68,14 +70,163 @@ public:
      * @return A string with the nucleotide and frequency of the kmer
      * in this object
      */
-    std::string toString() const;
+    std::string toString();
+    
+    /**
+     * @brief Writes this object to the given output stream. It first writes
+     * the kmer of this object (using method Kmer::write(ostream&)) 
+     * and them the bytes of the frequency (an int value) in binary format 
+     * (using method ostream::write(const char* s, streamsize n))
+     * Query method
+     * @param outputStream An output stream where this object will be written
+     */
+    void write(std::ostream outputStream);
+    
+    /**
+     * @brief Reads this object from the given input stream. It first reads
+     * the Kmer of this object (using method Kmer::read(std::istream&) and 
+     * then the bytes of the frequency (an int value) in binary format (using 
+     * method istream::read(char* s, streamsize n))
+     * Modifier method
+     * @param inputStream An input stream from which this object will be read
+     */
+    void read(std::istream inputStream);
     
 private:
     Kmer _kmer; ///< the Kmer object
     int _frequency; ///< the frequency
 }; // end class KmerFreq
 
+/**
+ * @brief Overloading of the stream insertion operator for KmerFreq class
+ * @param os The output stream to be used. Output parameter
+ * @param kmerFreq the KmerFreq object. Input parameter
+ * @return @p os A reference to the output stream
+ */
+std::ostream operator<<(std::ostream os, KmerFreq kmerFreq){
+    os << "La frecuencia es: " << kmerFreq.getFrequency();
+    return os;
+}
+
+/**
+ * @brief Overloading of the stream extraction operator for KmerFreq class
+ * @param is The input stream to be used. Output parameter
+ * @param kmerFreq the KmerFreq object. Input parameter
+ * @return @p is A reference to the input stream
+ */
+std::istream operator>>(std::istream is, KmerFreq kmerFreq){
+    int freq = kmerFreq.getFrequency();
+    is >> kmerFreq.setFrequency(freq);
+    return is;
+}
+
+/**
+ * @brief Overloading of the relational operator > for KmerFreq class
+ * @param kmerFreq1 The first object to be compared. Input parameter
+ * @param kmerFreq2 The second object to be compared. Input parameter
+ * @return true if the frequency of @p kmerFreq1 is greater than that of
+ * @p kmerFreq2 or if both frequencies are equals and the text of 
+ * @p kmerFreq1 is minor than the text of @p kmerFreq2; false otherwise
+ */
+bool operator>(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool mayor;
+    if (kmerFreq1.getFrequency()>kmerFreq2.getFrequency()){
+	mayor = true;
+    }
+    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
+	mayor = false;
+    }
+    /** Esto no se como hacerlo, me lo he inventado.
+    if (kmerFreq1.getFrequency()=kmerFreq2.getFrequency()){
+	if (kmerFreq1.length()<kmerFreq2.length()){
+	    mayor = true;
+	}else{
+	    mayot = false;
+	}
+    }*/
+    return mayor;
+}
+
+/**
+ * @brief Overloading of the operator < for KmerFreq class
+ * @param kmerFreq1 a Kmer object. Input parameter
+ * @param kmerFreq2 a Kmer object. Input parameter
+ * @return true if kmerFreq1 < kmerFreq2; false otherwise
+ */
+bool operator<(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool menor;
+    if (kmerFreq1.getFrequency()<kmerFreq2.getFrequency()){
+	menor = true;
+    }else{
+	menor = false;
+    }
+    return menor;
+}
+
+/**
+ * @brief Overloading of the operator == for Kmer class
+ * @param kmerFreq1 a KmerFreq object. Input parameter
+ * @param kmerFreq2 a KmerFreq object. Input parameter
+ * @return true if the two kmers contains the same pair Kmer-frequency;
+ * false otherwise
+ */
+bool operator==(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool igual;
+    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
+	igual = true;
+    }else{
+	igual = false;
+    }
+    return igual;
+}
+
+/**
+ * @brief Overloading of the operator != for KmerFreq class
+ * @param kmerFreq1 a Kmer object. Input parameter
+ * @param kmerFreq2 a Kmer object. Input parameter
+ * @return true if the two kmerFreq1 are not equals (see operator==); 
+ * false otherwise
+ */
+bool operator!=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool igual;
+    if (kmerFreq1.getFrequency()==kmerFreq2.getFrequency()){
+	igual = false;
+    }else{
+	igual = true;
+    }
+    return igual;
+}
+
+/**
+ * @brief Overloading of the operator <= for KmerFreq class
+ * @param kmerFreq1 a Kmer object. Input parameter
+ * @param kmerFreq2 a Kmer object. Input parameter
+ * @return true if kmerFreq1 <= kmerFreq2; false otherwise
+ */
+bool operator<=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool menor_igual;
+    if (kmerFreq1.getFrequency()<=kmerFreq2.getFrequency()){
+	menor_igual = true;
+    }else{
+	menor_igual = false;
+    }
+    return menor_igual;
+}
+
+/**
+ * @brief Overloading of the operator >= for KmerFreq class
+ * @param kmerFreq1 a Kmer object. Input parameter
+ * @param kmerFreq2 a Kmer object. Input parameter
+ * @return true if kmerFreq1 >= kmerFreq2; false otherwise
+ */
+bool operator>=(KmerFreq kmerFreq1, KmerFreq kmerFreq2){
+    bool mayor_igual;
+    if (kmerFreq1.getFrequency()>=kmerFreq2.getFrequency()){
+	mayor_igual = true;
+    }else{
+	mayor_igual = false;
+    }
+    return mayor_igual;
+}
+
 #endif /* KMER_FREQ_H */
-
-
-
